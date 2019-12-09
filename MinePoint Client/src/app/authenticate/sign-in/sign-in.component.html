@@ -1,0 +1,24 @@
+<form [formGroup]="signInForm" (ngSubmit)="onSubmit()" class="sign-in">
+    <mat-form-field>
+        <input #mainInput matInput required formControlName="username" autocomplete="off">
+        <mat-placeholder>{{'authenticateUsername' | translate | async }}</mat-placeholder>
+        <mat-error *ngIf="signInForm.controls.username.hasError('required')">
+            {{'authenticateUsernameRequired' | translate | async }}
+        </mat-error>
+    </mat-form-field>
+    <br />
+    <mat-form-field>
+        <input matInput required type="password" formControlName="password" autocomplete="off">
+        <mat-placeholder>{{'authenticatePassword' | translate | async }}</mat-placeholder>
+        <mat-error *ngIf="signInForm.controls.password.hasError('required')">
+            {{'authenticatePasswordRequired' | translate | async }}
+        </mat-error>
+    </mat-form-field>
+    <br />
+    <div class="button-container">
+        <button disabled mat-flat-button color="primary" type="submit">{{'authenticateSignIn' | translate | async }}</button>
+    </div>
+    <div *ngIf="responseError" class="response">
+        <span class="error">{{responseError}}</span>
+    </div>
+</form>

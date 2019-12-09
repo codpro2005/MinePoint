@@ -1,0 +1,36 @@
+<div class="background-container">
+    <img class="background" src="../../assets/compressed/contact.jpg">
+</div>
+<div class="content">
+    <div class="inner">
+        <form [formGroup]="contactForm" (submit)="onSubmit()">
+            <span class="title">{{'contactSendEMail' | translate | async}}</span>
+            <div class="form">
+                <mat-form-field>
+                    <input #mainInput matInput required type="text" formControlName="name">
+                    <mat-placeholder class="placeholder">{{'contactName' | translate | async}}</mat-placeholder>
+                    <mat-error *ngIf="contactForm.controls.name.hasError('required')">
+                        {{'contactNameRequired' | translate | async}}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput required type="text" formControlName="subject">
+                    <mat-placeholder class="placeholder">{{'contactSubject' | translate | async}}</mat-placeholder>
+                    <mat-error *ngIf="contactForm.controls.subject.hasError('required')">
+                        {{'contactSubjectRequired' | translate | async}}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <textarea matInput required formControlName="body"></textarea>
+                    <mat-placeholder class="placeholder">{{'contactDescription' | translate | async}}</mat-placeholder>
+                    <mat-error *ngIf="contactForm.controls.body.hasError('required')">
+                        {{'contactDescriptionRequired' | translate | async}}
+                    </mat-error>
+                </mat-form-field>
+                <button mat-raised-button color="primary" type="submit">{{'contactSubmit' | translate | async}}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<a class="none" #sendMail [href]="emailstring" target="_top"></a>

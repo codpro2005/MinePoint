@@ -1,0 +1,56 @@
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+
+  .inner {
+    height: 100%;
+    
+    .member {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+      max-width: 600px;
+      width: 100%;
+
+      .member-info {
+        display: flex;
+        flex-direction: column;
+
+        .member-name {
+          font-size: 1.5rem;
+        }
+
+        .member-description {
+          font-size: 1rem;
+        }
+      }
+
+      &:first-child {
+        border-radius: 4px 4px 0 0;
+      }
+
+      &:last-child {
+        border-radius: 0 0 4px 4px;
+      }
+
+      &:nth-child(even) {
+        background-color: #222;
+        flex-direction: row-reverse;
+
+        .member-image {
+          margin-left: 30px;
+        }
+      }
+
+      &:nth-child(odd) {
+        background-color: #333;
+
+        .member-image {
+          margin-right: 30px;
+        }
+      }
+    }
+  }
+}

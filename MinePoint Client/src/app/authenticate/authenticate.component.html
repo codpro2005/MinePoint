@@ -1,0 +1,20 @@
+<div class="background-container">
+    <!-- <img class="background" src="../../assets/compressed/contact.jpg"> -->
+</div>
+<div class="content">
+    <div class="inner">
+        <div class="header">
+            <span routerLink="/authenticate/sign-in" class="sign-in"
+                [class.is-active]="getIsActive('/authenticate/sign-in')">
+                {{'authenticateSignIn' | translate | async }}
+            </span>
+            <span routerLink="/authenticate/sign-up" class="sign-up"
+                [class.is-active]="getIsActive('/authenticate/sign-up')">
+                {{'authenticateSignIn' | translate | async }}
+            </span>
+        </div>
+        <div class="child-content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

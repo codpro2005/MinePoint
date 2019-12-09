@@ -1,0 +1,16 @@
+<div class="background-container">
+    <img class="background" src="../../assets/compressed/about-us.jpg">
+</div>
+<div class="content">
+    <div class="inner">
+        <div *ngFor="let member of members" class="member">
+            <div class="member-image">
+                <img width="200px" [src]="member.img">
+            </div>
+            <div class="member-info">
+                <span class="member-name">{{member.name | translate | async}}</span>
+                <!-- <span class="member-description">{{member.description | translate | async}}</span> -->
+            </div>
+        </div>
+    </div>
+</div>
