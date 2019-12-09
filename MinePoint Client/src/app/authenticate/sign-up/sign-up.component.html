@@ -16,7 +16,7 @@
     <mat-form-field>
         <input matInput required type="password" formControlName="passwordConfirm"
             [errorStateMatcher]="passwordErrorMatcher">
-        <mat-placeholder>Confirm password</mat-placeholder>
+        <mat-placeholder>{{'authenticatePasswordConfirm' | translate | async }}</mat-placeholder>
         <mat-error *ngIf="signUpForm.controls.passwordConfirm.hasError('required')">
             {{'authenticatePasswordConfirmRequired' | translate | async }}
         </mat-error>
