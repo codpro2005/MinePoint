@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --ssl --ssl-key \"D:\\Arbeit\\TBZ\\Schulfächer\\Wirtschaft\\MinePoint\\MinePoint Client\\ssl\\localhost.key\" --ssl-cert \"D:\\Arbeit\\TBZ\\Schulfächer\\Wirtschaft\\MinePoint\\MinePoint Client\\ssl\\localhost.crt\"",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

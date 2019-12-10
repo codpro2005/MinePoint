@@ -70,6 +70,7 @@ interface ILanguage {
     authenticatePasswordRequired: string;
     authenticatePasswordConfirmRequired: string;
     authenticatePasswordConfirmPasswordConfirmed: string;
+    authenticateComingSoon: string;
 }
 
 export const languages: ILanguages = {
@@ -120,8 +121,8 @@ export const languages: ILanguages = {
         contactDescriptionRequired: 'Please enter a description',
         contactSubmit: 'Submit',
         contactGreetings: 'Best regards, ',
-        authenticateSignIn: 'Sign up',
-        authenticateSignUp: 'Sign in',
+        authenticateSignIn: 'Sign in',
+        authenticateSignUp: 'Sign up',
         authenticateUsername: 'Username',
         authenticatePassword: 'Password',
         authenticatePasswordConfirm: 'Password confirm',
@@ -129,6 +130,7 @@ export const languages: ILanguages = {
         authenticatePasswordRequired: 'Please enter a password',
         authenticatePasswordConfirmRequired: 'Please confirm your password',
         authenticatePasswordConfirmPasswordConfirmed: 'Passwords don\'t match',
+        authenticateComingSoon: 'Coming soon',
     },
     german: {
         home: 'Startseite',
@@ -186,6 +188,7 @@ export const languages: ILanguages = {
         authenticatePasswordRequired: 'Bitte ein Passwort eingeben',
         authenticatePasswordConfirmRequired: 'Bitte Passwort bestätigen',
         authenticatePasswordConfirmPasswordConfirmed: 'Passwörter stimmen nicht überein',
+        authenticateComingSoon: 'Bald erhältlich',
     },
     chinese: {
         home: '家',
@@ -243,5 +246,6 @@ export const languages: ILanguages = {
         authenticatePasswordRequired: '请输入密码',
         authenticatePasswordConfirmRequired: '请确认密码',
         authenticatePasswordConfirmPasswordConfirmed: '密码不匹配',
+        authenticateComingSoon: '快来了',
     }
 };
