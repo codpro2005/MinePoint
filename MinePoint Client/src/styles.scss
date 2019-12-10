@@ -65,8 +65,11 @@ mat-form-field {
     }
   }
 
-  .mat-error {
+  .mat-form-field-underline {
+    background-color: white !important;
+  }
 
+  .mat-error {
     &:not(:first-of-type) {
       display: none;
     }
