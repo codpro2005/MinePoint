@@ -7,9 +7,10 @@
             <div class="member-image">
                 <img width="200px" [src]="member.img">
             </div>
-            <div class="member-info">
-                <span class="member-name">{{member.name | translate | async}}</span>
-                <!-- <span class="member-description">{{member.description | translate | async}}</span> -->
+            <div class="info">
+                <span class="name">{{member.name | translate | async}}</span>
+                <span class="function">{{member.function | translate | async}}</span>
+                <span class="description">{{member.description | translate | async}}</span>
             </div>
         </div>
     </div>

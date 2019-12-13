@@ -47,11 +47,24 @@ interface ILanguage {
     aboutUsSilasZahner: string;
     aboutUsChristianFuchs: string;
     aboutUsDaniloFurrer: string;
+    aboutUsKajendranPulendran: string;
     aboutUsChrisWolf: string;
     aboutUsNilsChapman: string;
-    aboutUsKajendranPulendran: string;
     aboutUsGregorMuheim: string;
+    aboutUsSilasZahnerFunction: string;
+    aboutUsChristianFuchsFunction: string;
+    aboutUsDaniloFurrerFunction: string;
+    aboutUsKajendranPulendranFunction: string;
+    aboutUsChrisWolfFunction: string;
+    aboutUsNilsChapmanFunction: string;
+    aboutUsGregorMuheimFunction: string;
     aboutUsSilasZahnerDescription: string;
+    aboutUsChristianFuchsDescription: string;
+    aboutUsDaniloFurrerDescription: string;
+    aboutUsKajendranPulendranDescription: string;
+    aboutUsChrisWolfDescription: string;
+    aboutUsNilsChapmanDescription: string;
+    aboutUsGregorMuheimDescription: string;
     contactSendEMail: string;
     contactName: string;
     contactSubject: string;
@@ -107,11 +120,24 @@ export const languages: ILanguages = {
         aboutUsSilasZahner: 'Silas Zahner',
         aboutUsChristianFuchs: 'Christian Fuchs',
         aboutUsDaniloFurrer: 'Danilo Furrer',
+        aboutUsKajendranPulendran: 'Kajendran Pulendran',
         aboutUsChrisWolf: 'Chris Wolf',
         aboutUsNilsChapman: 'Nils Chapman',
-        aboutUsKajendranPulendran: 'Kajendran Pulendran',
         aboutUsGregorMuheim: 'Gregor Muheim',
-        aboutUsSilasZahnerDescription: 'Silas has a ton of teeth.',
+        aboutUsSilasZahnerFunction: 'CEO',
+        aboutUsChristianFuchsFunction: 'CAO',
+        aboutUsDaniloFurrerFunction: 'CSO/CTO',
+        aboutUsKajendranPulendranFunction: 'CTO',
+        aboutUsChrisWolfFunction: 'CPO',
+        aboutUsNilsChapmanFunction: 'CMO',
+        aboutUsGregorMuheimFunction: 'CFO',
+        aboutUsSilasZahnerDescription: 'He is responsible for the goal guidance of our company. He takes the leading role in the team and has the last word on most important decisions. Above all, he has a lot of organizational and planning work/responsibility. He has to make sure that all deadlines and charges are always met on time and that the goals are realistic and achievable. In addition, he helps out if one of our employees has too much work. E.g. with the production and treatment of our Teasers.',
+        aboutUsChristianFuchsDescription: 'Supports the CEO in all his duties. Mostly in the area of administration. He is responsible for weekly minutes and task allocation. Like the CEO, he helps out in other roles when necessary.',
+        aboutUsDaniloFurrerDescription: 'Is responsible for the technical tasks in the company. This is mainly the maintenance and creation of our website. As soon as we can offer our product/service he will also be responsible for the technical support.',
+        aboutUsKajendranPulendranDescription: 'Is additionally responsible to ensure that our website runs without interruptions.',
+        aboutUsChrisWolfDescription: 'Ist für die Wartung und Erstellung unserer Dienste zuständig. Dabei muss er darauf achten, dass unsere Server den Vorgaben entsprechend laufen und die Automatisierung für die Server Erstellung korrekt ausgeführt werden.',
+        aboutUsNilsChapmanDescription: 'The CMO is an all-rounder. It helps out a little everywhere. Its main task, however, is the marketing of the company. The customer is always the centre of attention. How can I reach him? What influence does this decision have on him? etc. An example of his work would be planning and organizing the opening event. Or formulating the interview questions.',
+        aboutUsGregorMuheimDescription: 'The CFO is responsible for the financial planning and accounting of the company. He must ensure that the budget plan is adhered to and that the necessary profits are made to cover the expenses, if at the end of the day a residual amount is left, this is distributed fairly among the team members.',
         contactSendEMail: 'Send E-Mail',
         contactName: 'Name',
         contactSubject: 'Subject',
@@ -165,11 +191,24 @@ export const languages: ILanguages = {
         aboutUsSilasZahner: 'Silas Zahner',
         aboutUsChristianFuchs: 'Christian Fuchs',
         aboutUsDaniloFurrer: 'Danilo Furrer',
+        aboutUsKajendranPulendran: 'Kajendran Pulendran',
         aboutUsChrisWolf: 'Chris Wolf',
         aboutUsNilsChapman: 'Nils Chapman',
-        aboutUsKajendranPulendran: 'Kajendran Pulendran',
         aboutUsGregorMuheim: 'Gregor Muheim',
-        aboutUsSilasZahnerDescription: 'Silas hat eine Menge Zähne.',
+        aboutUsSilasZahnerFunction: 'CEO',
+        aboutUsChristianFuchsFunction: 'CAO',
+        aboutUsDaniloFurrerFunction: 'CSO/CTO',
+        aboutUsKajendranPulendranFunction: 'CTO',
+        aboutUsChrisWolfFunction: 'CPO',
+        aboutUsNilsChapmanFunction: 'CMO',
+        aboutUsGregorMuheimFunction: 'CFO',
+        aboutUsSilasZahnerDescription: 'Ist für die Zielführung unseres Unternehmens zuständig. Er übernimmt dabei die führende Rolle im Team und hat bei den meisten wichtigen Entscheiden das letzte Wort. Bei ihm liegt vor allem viel Organisatorische und planende Arbeit/Verantwortung. Er muss darauf achten das alle Termine und Abgaben immer rechtzeitig eingehalten werden und dass die Ziele realistisch und erreichbar gesetzt sind. Zusätzlich hilft er noch aus, wenn einer unserer Mitarbeiter zu viel Arbeit haben. Z.B bei der Erstellung und Bearbeitung unseres Teasers.',
+        aboutUsChristianFuchsDescription: 'Unterstützt den CEO bei all seinen Aufgaben. Meistens im Bereich der Administration. Er ist für die wöchentliche Protokollführung und Aufgabeneinteilung zuständig. So wie der CEO hilft er bei den anderen Rollen aus, wenn nötig.',
+        aboutUsDaniloFurrerDescription: 'Ist für die technischen Aufgaben im Unternehmen zuständig. Das ist vor allem die Wartung und Erstellung unserer Webseite. Sobald wir unser Produkt/Dienst anbieten können wird er auch noch für den technischen Support verantwortlich sein.',
+        aboutUsKajendranPulendranDescription: 'Ist zusätzlich zuständig zu sorgen, dass unsere Webseite ohne Unterbrüche läuft.',
+        aboutUsChrisWolfDescription: 'Ist für die Wartung und Erstellung unserer Dienste zuständig. Dabei muss er darauf achten, dass unsere Server den Vorgaben entsprechend laufen und die Automatisierung für die Server Erstellung korrekt ausgeführt werden.',
+        aboutUsNilsChapmanDescription: 'Der CMO ist ein Allrounder. Er hilft überall ein bisschen aus. Seine Hauptaufgabe befindet sich aber im Marketing der Firma. Dabei steht der Kunde immer im Mittelpunkt. Wie kann ich ihn erreichen? Welchen Einfluss hat dieser Entscheid auf ihn? Usw. Eine Bsp seiner Arbeit wäre das Planen und Organisieren des Eröffnungsevents. Oder das Formulieren der Interview Fragen.',
+        aboutUsGregorMuheimDescription: 'Der CFO übernimmt die finanzielle Planung und Buchführung des Unternehmens. Er muss darauf achten, dass der Budgetplan eingehalten wird und die nötigen Gewinne erzielt werden, um die Ausgaben abzudecken, wenn dann am Ende ein Restbetrag übrig bleibt dieser Fair auf die Teammitglieder verteilt wird.',
         contactSendEMail: 'E-Mail senden',
         contactName: 'Name',
         contactSubject: 'Subjekt',
@@ -223,11 +262,24 @@ export const languages: ILanguages = {
         aboutUsSilasZahner: '西拉斯·扎纳（Silas Zahner）',
         aboutUsChristianFuchs: '克里斯蒂安·福克斯（Christian Fuchs）',
         aboutUsDaniloFurrer: '达尼洛·富勒（Danilo Furrer）',
+        aboutUsKajendranPulendran: 'Kajendran Pulendran',
         aboutUsChrisWolf: '克里斯·沃尔夫 (Chris Wolf)',
         aboutUsNilsChapman: '尼尔斯·查普曼 (Nils Chapman)',
-        aboutUsKajendranPulendran: 'Kajendran Pulendran',
         aboutUsGregorMuheim: '格雷戈尔·穆海姆 (Gregor Muheim)',
-        aboutUsSilasZahnerDescription: '西拉斯有很多牙齿。',
+        aboutUsSilasZahnerFunction: '首席执行官',
+        aboutUsChristianFuchsFunction: '首席行政官',
+        aboutUsDaniloFurrerFunction: '首席销售官/首席技术官',
+        aboutUsKajendranPulendranFunction: '首席技术官',
+        aboutUsChrisWolfFunction: '首席项目官',
+        aboutUsNilsChapmanFunction: '首席营销官',
+        aboutUsGregorMuheimFunction: '首席财务官',
+        aboutUsSilasZahnerDescription: '负责我公司的路线指导。他在团队中扮演领导角色，并在最重要的决策中拥有最终决定权。最重要的是，有很多组织和计划工作/职责。他必须确保始终及时地遵守所有任命和指控，并设定切实可行的目标。此外，如果我们的一名员工工作过多，它仍然会有所帮助。例如，在创建和编辑预告片时。',
+        aboutUsChristianFuchsDescription: '支持首席执行官的所有任务。主要在管理领域。他负责每周的协议和任务分配。像首席执行官一样，如有必要，他可以帮助其他职位。',
+        aboutUsDaniloFurrerDescription: '负责公司的技术任务。这首先是我们网站的维护和创建。一旦我们能够提供我们的产品/服务，他还将负责技术支持。',
+        aboutUsKajendranPulendranDescription: '还负责确保我们的网站正常运行。',
+        aboutUsChrisWolfDescription: '负责维护和创建我们的服务。为此，他必须确保我们的服务器按照规范运行，并且服务器创建的自动化操作正确执行。',
+        aboutUsNilsChapmanDescription: '首席营销官是一个多面手。他到处都有帮助。但是，他的主要任务是公司的市场营销。客户永远是焦点。我怎么能联系到他？这个决定对他有什么影响？等等他工作的一个例子是开幕活动的策划和组织。或制定面试问题。',
+        aboutUsGregorMuheimDescription: '首席财务官负责公司的财务计划和会计。他必须确保预算计划得到遵守，并获得必要的利润来支付费用，最后，剩下的差额被分配给了团队成员。',
         contactSendEMail: '发送邮件',
         contactName: '名',
         contactSubject: '主题',
