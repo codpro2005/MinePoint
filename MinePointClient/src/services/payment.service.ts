@@ -12,7 +12,7 @@ export class PaymentService {
   constructor(private http: HttpClient) { }
 
   public GetOnetimePaymentLink(): Observable<string> {
-    return this.http.get<string>(`${api.root}/${api.sub}/${this.controller}/GetOnetimePaymentLink`, { responseType: 'text' });
+    return this.http.get<string>(`${api.root}/${api.sub}/${this.controller}/GetOnetimePaymentLink`, { responseType: 'text' as 'json' });
   }
 
 
