@@ -1,0 +1,20 @@
+<div class="background-container">
+    <img class="background" src="../../assets/compressed/authenticate.jpg">
+</div>
+<div class="content">
+    <div class="inner">
+        <div class="header">
+            <span [routerLink]="absoluteRoute.signIn" class="sign-in"
+                [class.is-active]="getIsActive(absoluteRoute.signIn)">
+                {{'authenticateSignIn' | translate | async }}
+            </span>
+            <span [routerLink]="absoluteRoute.signUp" class="sign-up"
+                [class.is-active]="getIsActive(absoluteRoute.signUp)">
+                {{'authenticateSignUp' | translate | async }}
+            </span>
+        </div>
+        <div class="child-content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

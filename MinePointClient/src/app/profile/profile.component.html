@@ -1,0 +1,24 @@
+<div class="background-container">
+    <img class="background" src="../../assets/compressed/profile.jpg">
+</div>
+<div class="content">
+    <div class="inner">
+        <span class="title">{{'profileProfile' | translate | async }}</span>
+        <div class="infos">
+            <div class="info">
+                <span class="name">{{'profileUsername' | translate | async }}:</span>
+                <div class="values">
+                    <span class="value">Danilo</span>
+                </div>
+            </div>
+            <div class="info">
+                <span class="name">{{'profileSubscriptionExpirationDate' | translate | async }}:</span>
+                <div class="values">
+                    <span class="value">2019.12.12</span>
+                    <button mat-button color="primary" class="value">{{'profileCancel' | translate | async }}</button>
+                </div>
+            </div>
+        </div>
+        <!-- <iframe src="https://api.paymentwall.com/api/subscription?key=2c134bfd8bc5ffec9abb9f0632adf8ea&uid=user40012&widget=p1_1&amount=9.99&currencyCode=USD&ag_name=Gold%20Membership&ag_external_id=product301&ag_type=fixed&sign_version=3&email=user@hostname.com&history[registration_date]=registered_date_of_user&ps=all&success_url=https://www.minepoint.ch&sign=897a53a30b48210635b18c8f58b730b28cbec6b50bf0a40a68d97208be9d37f7"></iframe> -->
+    </div>
+</div>

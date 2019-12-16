@@ -1,0 +1,34 @@
+<form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="sign-up">
+    <mat-form-field>
+        <input #mainInput matInput required formControlName="username">
+        <mat-placeholder>{{'authenticateUsername' | translate | async }}</mat-placeholder>
+        <mat-error *ngIf="signUpForm.controls.username.hasError('required')">
+            {{'authenticateUsernameRequired' | translate | async }}
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput required type="password" formControlName="password">
+        <mat-placeholder>{{'authenticatePassword' | translate | async }}</mat-placeholder>
+        <mat-error *ngIf="signUpForm.controls.password.hasError('required')">
+            {{'authenticatePasswordRequired' | translate | async }}
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput required type="password" formControlName="passwordConfirm"
+            [errorStateMatcher]="passwordErrorMatcher">
+        <mat-placeholder>{{'authenticatePasswordConfirm' | translate | async }}</mat-placeholder>
+        <mat-error *ngIf="signUpForm.controls.passwordConfirm.hasError('required')">
+            {{'authenticatePasswordConfirmRequired' | translate | async }}
+        </mat-error>
+        <mat-error *ngIf="signUpForm.hasError('differentPassword')">
+            {{'authenticatePasswordConfirmPasswordConfirmed' | translate | async }}
+        </mat-error>
+    </mat-form-field>
+    <div class="button-container">
+        <button mat-flat-button color="primary" type="submit">{{'authenticateSignUp' | translate | async }}</button>
+    </div>
+    <div *ngIf="responseSuccess || responseError" class="response">
+        <span *ngIf="responseSuccess" class="success">Registration Successful!</span>
+        <span *ngIf="responseError" class="error">{{responseError}}</span>
+    </div>
+</form>

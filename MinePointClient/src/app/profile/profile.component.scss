@@ -1,0 +1,45 @@
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .inner {
+    background-color: #222;
+    border-radius: 4px;
+    padding: 20px;
+    width: 400px;
+
+    .title {
+      font-size: 2rem;
+    }
+
+    .infos {
+      font-size: 1.25rem;
+
+      .info {
+        display: flex;
+        align-items: center;
+        height: 36px;
+        .name {
+          display: inline-block;
+          width: 200px;
+        }
+
+        .values {
+          display: flex;
+          align-items: center;
+
+          .value {
+            &:not(:last-child) {
+              margin-right: 1rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.none {
+  display: none;
+}
