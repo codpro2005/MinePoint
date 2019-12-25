@@ -17,12 +17,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSliderModule } from '@angular/material/slider';
 import { AuthenticateComponent } from './authenticate/authenticate.component';
 import { SignInComponent } from './authenticate/sign-in/sign-in.component';
 import { SignUpComponent } from './authenticate/sign-up/sign-up.component';
 import { ProfileComponent } from './profile/profile.component';
 import { HttpClientModule } from '@angular/common/http';
 import { PaymentDialogComponent } from './product/payment-dialog/payment-dialog.component';
+import { MyValidators } from 'src/data/my-validators';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -51,8 +54,9 @@ import { PaymentDialogComponent } from './product/payment-dialog/payment-dialog.
     MatInputModule,
     MatCheckboxModule,
     MatDialogModule,
+    MatSliderModule
   ],
-  providers: [],
+  providers: [MyValidators, CookieService],
   bootstrap: [AppComponent],
   entryComponents: [PaymentDialogComponent],
 })

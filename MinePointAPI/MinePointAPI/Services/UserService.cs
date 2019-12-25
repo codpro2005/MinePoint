@@ -1,4 +1,5 @@
-﻿using MinePointAPI.Models;
+﻿using MinePointAPI.Helpers;
+using MinePointAPI.Models;
 using MinePointAPI.Repositories;
 using System;
 using System.Collections.Generic;
@@ -9,25 +10,32 @@ namespace MinePointAPI.Services
 {
 	public interface IUserService
 	{
+		bool GetTokenValid(Token token);
 		User PostUser(User user);
-		User GetUser();
+		Token PostUserLogin(User user);
 	}
 	public class UserService : IUserService
 	{
-		private readonly IUserRepository _userRepository;
+		private readonly IUserRepository UserRepository;
+
 		public UserService(IUserRepository userRepository)
 		{
-			this._userRepository = userRepository;
+			this.UserRepository = userRepository;
+		}
+
+		public bool GetTokenValid(Token token)
+		{
+			return TokenHelper.IsValid(token);
 		}
 
 		public User PostUser(User user)
 		{
-			return this._userRepository.PostUser(user);
+			return this.UserRepository.PostUser(user);
 		}
 
-		public User GetUser()
+		public Token PostUserLogin(User user)
 		{
-			return this._userRepository.GetUser();
+			return this.UserRepository.PostUserLogin(user);
 		}
 	}
 }

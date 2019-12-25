@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, DoCheck } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationPath } from 'src/data/authentication-path';
 import { absoluteRoute } from 'src/data/routes';
@@ -8,18 +8,12 @@ import { absoluteRoute } from 'src/data/routes';
   templateUrl: './authenticate.component.html',
   styleUrls: ['./authenticate.component.scss']
 })
-export class AuthenticateComponent implements OnInit, DoCheck {
+export class AuthenticateComponent implements OnInit {
   public absoluteRoute = absoluteRoute;
 
   constructor(private router: Router) { }
 
   ngOnInit() {
-  }
-
-  ngDoCheck() {
-    if (this.router.url === '/authenticate') {
-      this.navigateToAuthenticationOption(AuthenticationPath.SignIn);
-    }
   }
 
   public getIsActive(currentRoute: string): boolean {

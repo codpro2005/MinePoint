@@ -12,28 +12,28 @@ namespace MinePointAPI.Controllers
 	//[ApiController]
 	public class PaymentwallController : ControllerBase
 	{
-		private readonly IPaymentwallService _paymentwallService;
+		private readonly IPaymentwallService PaymentwallService;
 		public PaymentwallController(IPaymentwallService paymentwallService)
 		{
-			this._paymentwallService = paymentwallService;
+			this.PaymentwallService = paymentwallService;
 		}
 
 		[HttpGet]
 		public string GetOnetimePaymentLink()
 		{
-			return this._paymentwallService.GetOnetimePaymentLink();
+			return this.PaymentwallService.GetOnetimePaymentLink();
 		}
 
 		[HttpGet]
 		public string GetSubscriptionLink()
 		{
-			return this._paymentwallService.GetSubscriptionLink();
+			return this.PaymentwallService.GetSubscriptionLink();
 		}
 
 		[HttpGet]
 		public string GetPingback()
 		{
-			return this._paymentwallService.GetPingback();
+			return this.PaymentwallService.GetPingback();
 		}
 	}
 }

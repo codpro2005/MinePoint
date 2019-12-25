@@ -11,7 +11,7 @@ export class PaymentService {
 
   constructor(private http: HttpClient) { }
 
-  public GetOnetimePaymentLink(): Observable<string> {
+  public getOnetimePaymentLink(): Observable<string> {
     return this.http.get<string>(`${api.root}/${api.sub}/${this.controller}/GetOnetimePaymentLink`, { responseType: 'text' as 'json' });
   }
 

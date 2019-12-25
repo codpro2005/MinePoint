@@ -11,11 +11,24 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- Dumping data for table minepoint.user: ~1 rows (approximately)
+
+-- Dumping database structure for minepoint
+DROP DATABASE IF EXISTS `minepoint`;
+CREATE DATABASE IF NOT EXISTS `minepoint` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `minepoint`;
+
+-- Dumping structure for table minepoint.user
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `ID` char(38) NOT NULL,
+  `mail` varchar(254) NOT NULL,
+  `password` char(65) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table minepoint.user: ~0 rows (approximately)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`ID`, `name`, `password`) VALUES
-	('5fb7b950-5c8c-4651-8a12-233c66d13605', 'dan', '123');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

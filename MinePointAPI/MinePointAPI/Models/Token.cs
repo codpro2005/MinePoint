@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace MinePointAPI.Models
 {
-	public class User
+	public class Token
 	{
-		public Guid ID { get; set; }
-		public string Mail { get; set; }
-		public string Password { get; set; }
+		public Guid UserID { get; set; }
+		public Guid Value { get; set; }
+		public DateTime LatestValidDate { get; set; }
 	}
 }

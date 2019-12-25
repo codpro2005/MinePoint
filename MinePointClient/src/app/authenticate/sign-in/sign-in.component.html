@@ -1,9 +1,12 @@
 <form [formGroup]="signInForm" (ngSubmit)="onSubmit()" class="sign-in">
     <mat-form-field>
-        <input #mainInput matInput required formControlName="username" autocomplete="off">
-        <mat-placeholder>{{'authenticateUsername' | translate | async }}</mat-placeholder>
-        <mat-error *ngIf="signInForm.controls.username.hasError('required')">
-            {{'authenticateUsernameRequired' | translate | async }}
+        <input #mainInput matInput required formControlName="mail" autocomplete="off">
+        <mat-placeholder>{{'authenticateMail' | translate | async }}</mat-placeholder>
+        <mat-error *ngIf="signInForm.controls.mail.hasError('required')">
+            {{'authenticateMailRequired' | translate | async }}
+        </mat-error>
+        <mat-error *ngIf="signInForm.controls.mail.hasError('email')">
+            {{'authenticateMailInvalid' | translate | async }}
         </mat-error>
     </mat-form-field>
     <br />
@@ -12,6 +15,18 @@
         <mat-placeholder>{{'authenticatePassword' | translate | async }}</mat-placeholder>
         <mat-error *ngIf="signInForm.controls.password.hasError('required')">
             {{'authenticatePasswordRequired' | translate | async }}
+        </mat-error>
+        <mat-error *ngIf="signInForm.controls.password.hasError('minlength')">
+            {{getPasswordMinLengthError()}}
+        </mat-error>
+        <mat-error *ngIf="signInForm.controls.password.hasError('maxlength')">
+            {{getPasswordMaxLengthError()}}
+        </mat-error>
+        <mat-error *ngIf="signInForm.controls.password.hasError('digitMin')">
+            {{getPasswordDigitMinError()}}
+        </mat-error>
+        <mat-error *ngIf="signInForm.controls.password.hasError('upperMin')">
+            {{getPasswordUpperMinError()}}
         </mat-error>
     </mat-form-field>
     <br />

@@ -35,7 +35,7 @@ body {
     margin: auto;
     min-height: 50%;
     min-width: 50%;
-    filter: blur(5px);
+    filter: blur(2px);
   }
 }
 
@@ -52,16 +52,21 @@ body {
 }
 
 mat-form-field {
-  &:not(.mat-focused) {
-    &.ng-valid,
-    &.ng-untouched {
-      mat-placeholder {
-        color: #ccc;
-      }
+  &:not(.mat-form-field-invalid) {
+    mat-placeholder {
+      color: #ccc;
+    }
 
-      .mat-placeholder-required {
+    &.mat-focused {
+      mat-placeholder {
         color: $persian-green;
       }
+    }
+  }
+
+  &:not(.mat-focused) {
+    .mat-placeholder-required {
+      color: $persian-green;
     }
   }
 

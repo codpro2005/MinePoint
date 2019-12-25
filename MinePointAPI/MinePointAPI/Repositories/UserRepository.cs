@@ -1,16 +1,14 @@
-﻿using MinePointAPI.Models;
+﻿using MinePointAPI.Helpers;
+using MinePointAPI.Models;
 using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MinePointAPI.Repositories
 {
 	public interface IUserRepository
 	{
 		User PostUser(User user);
-		User GetUser();
+		Token PostUserLogin(User user);
 	}
 	public class UserRepository : IUserRepository
 	{
@@ -24,20 +22,31 @@ namespace MinePointAPI.Repositories
 
 		public User PostUser(User user)
 		{
+			user.ID = Guid.NewGuid();
 			this.connection.Open();
-			var command = connection.CreateCommand();
-			command.CommandText = "INSERT INTO user(ID,name,password) VALUES(@ID, @name, @password)";
-			command.Parameters.AddWithValue("@ID", Guid.NewGuid());
-			command.Parameters.AddWithValue("@name", user.Username);
-			command.Parameters.AddWithValue("@password", user.Password);
+			var command = new MySqlCommand("INSERT INTO user(ID,mail,password) VALUES(@ID, @mail, @password)", this.connection);
+			command.Parameters.AddWithValue("@ID", user.ID);
+			command.Parameters.AddWithValue("@mail", user.Mail);
+			command.Parameters.AddWithValue("@password", SecurePasswordHasher.Hash(user.Password));
 			command.ExecuteNonQuery();
 			this.connection.Close();
+			user.Password = null;
 			return user;
 		}
 
-		public User GetUser()
+		public Token PostUserLogin(User user)
 		{
-			return new User();
+			this.connection.Open();
+			var command = new MySqlCommand($"SELECT * FROM USER WHERE mail = '{user.Mail}'", this.connection);
+			var dataReader = command.ExecuteReader();
+			Token token = null;
+			if (dataReader.Read() && SecurePasswordHasher.Verify(user.Password, (string)dataReader["Password"]))
+			{
+				token = TokenHelper.Update(new Guid((string)dataReader["ID"]));
+			}
+			dataReader.Close();
+			this.connection.Close();
+			return token;
 		}
 	}
 }

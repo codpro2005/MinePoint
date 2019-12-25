@@ -1,5 +1,5 @@
 <div class="background-container">
-    <img class="background" src="../../assets/compressed/contact.jpg">
+    <img class="background" src="../../assets/compressed/background-image.jpg">
 </div>
 <div class="content">
     <div class="inner">
@@ -7,10 +7,10 @@
             <span class="title">{{'contactSendEMail' | translate | async}}</span>
             <div class="form">
                 <mat-form-field>
-                    <input #mainInput matInput required type="text" formControlName="name">
-                    <mat-placeholder class="placeholder">{{'contactName' | translate | async}}</mat-placeholder>
-                    <mat-error *ngIf="contactForm.controls.name.hasError('required')">
-                        {{'contactNameRequired' | translate | async}}
+                    <input #mainInput matInput required type="text" formControlName="mail">
+                    <mat-placeholder class="placeholder">{{'contactMail' | translate | async}}</mat-placeholder>
+                    <mat-error *ngIf="contactForm.controls.mail.hasError('required')">
+                        {{'contactMailRequired' | translate | async}}
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field>
@@ -32,5 +32,3 @@
         </form>
     </div>
 </div>
-
-<a class="none" #sendMail [href]="emailstring" target="_top"></a>

@@ -17,6 +17,7 @@ const routes: Routes = [
   { path: relativeRoute.aboutUs, component: AboutUsComponent },
   { path: relativeRoute.contact, component: ContactComponent },
   { path: relativeRoute.authenticate, component: AuthenticateComponent, canActivate: [AuthGuard], children: [
+    { path: '', redirectTo: relativeRoute.signIn, pathMatch: 'full'},
     { path: relativeRoute.signIn, component: SignInComponent },
     { path: relativeRoute.signUp, component: SignUpComponent },
   ] },

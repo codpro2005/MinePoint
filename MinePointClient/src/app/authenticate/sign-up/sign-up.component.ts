@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { User } from 'src/data/user';
 import { UserService } from 'src/services/user.service';
+import { MyValidators } from 'src/data/my-validators';
+import { TranslateService } from 'src/services/translate.service';
+import { ErrorMessagesService } from 'src/services/error-messages.service';
 
 class PasswordConfirmErrorMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -23,13 +26,13 @@ export class SignUpComponent implements OnInit {
   public responseSuccess: boolean;
   public responseError: string;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private myValidators: MyValidators, private errorMessagesService: ErrorMessagesService) { }
 
   ngOnInit() {
     this.signUpForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-      passwordConfirm: ['', Validators.required],
+      mail: ['', [Validators.required, this.myValidators.email]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(30), this.myValidators.charsInRange('0-9', 'digit'), this.myValidators.charsInRange('A-Z', 'upper')]],
+      passwordConfirm: ['', [Validators.required]],
     }, { validators: [this.passwordConfirmed] });
 
     // this.mainInput.nativeElement.focus();
@@ -39,13 +42,30 @@ export class SignUpComponent implements OnInit {
     return formGroup.value.password === formGroup.value.passwordConfirm ? null : { differentPassword: true };
   }
 
+  public getPasswordMinLengthError(): string {
+    return this.errorMessagesService.getPasswordMinLengthError(this.signUpForm.controls.password.errors.minlength.requiredLength);
+  }
+
+  public getPasswordMaxLengthError() {
+    return this.errorMessagesService.getPasswordMaxLengthError(this.signUpForm.controls.password.errors.maxlength.requiredLength);
+  }
+
+  public getPasswordDigitMinError() {
+    return this.errorMessagesService.getPasswordDigitMinError(this.signUpForm.controls.password.errors.digitMin.minAmount);
+  }
+
+  public getPasswordUpperMinError() {
+    return this.errorMessagesService.getPasswordUpperMinError(this.signUpForm.controls.password.errors.upperMin.minAmount);
+  }
+
   public onSubmit() {
+    console.log(this.signUpForm.controls.password.errors);
     if (this.signUpForm.invalid) {
       return;
     }
 
     const user: User = {
-      username: this.signUpForm.value.username,
+      mail: this.signUpForm.value.mail,
       password: this.signUpForm.value.password,
     };
 

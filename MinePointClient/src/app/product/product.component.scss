@@ -61,12 +61,23 @@
           .mat-card-content {
             width: 100%;
 
-            ::ng-deep .mat-checkbox-layout {
-              white-space: initial;
+            .description {
+              font-size: 1.5rem;
             }
 
-            p {
-              font-size: 1.5rem;
+            .slider-value {
+              text-align: center;
+              font-size: 1.25rem;
+            }
+
+            mat-slider {
+              display: block;
+              width: calc(100% - 100px);
+              margin: auto;
+            }
+
+            ::ng-deep .mat-checkbox-layout {
+              white-space: initial;
             }
 
             ::ng-deep .mat-checkbox {

@@ -1,92 +1,33 @@
 <div class="background-container">
-    <img class="background" src="../../assets/compressed/product.png">
+    <img class="background" src="../../assets/compressed/background-image.jpg">
 </div>
 <div class="content">
     <div class="inner">
         <div class="packages basic">
-            <!-- <div class="packages-name">
-                {{'productBasic' | translate | async}}
-            </div>
-            <ul class="packages-info">
-                <li>{{'productAds' | translate | async}}</li>
-            </ul> -->
             <div class="packages-offer">
                 <mat-card class="package example-card">
                     <mat-card-header>
-                        <!-- <img mat-card-avatar src="../../assets/flags/german.webp"> -->
                         <mat-card-title>{{'productMinePointPackage' | translate | async}}</mat-card-title>
-                        <mat-card-subtitle>8 CHF {{'productPerMonth' | translate | async}}</mat-card-subtitle>
+                        <mat-card-subtitle>{{'productFrom8FrancsPerMonth' | translate | async}}</mat-card-subtitle>
                     </mat-card-header>
                     <img mat-card-image src="../../assets/compressed/logo/logoSmallGreen.svg"
                         [alt]="'productMinePointPackage' | translate | async">
                     <mat-card-content>
-                        <p>
+                        <p class="description">
                             {{'productMinePointPackageDescription' | translate | async}}
                         </p>
-                        <mat-checkbox #checkbox>{{'productMinePointPackageBonusDescription' | translate | async}}</mat-checkbox>
+                        <mat-slider #slider min="4" max="30" [value]="sliderStartVal"></mat-slider>
+                        <p class="slider-value">{{getSliderDescriptionTranslated()}}</p>
+                        <mat-checkbox #checkbox>{{'productMinePointPackageBonusDescription' | translate | async}}
+                        </mat-checkbox>
                     </mat-card-content>
                     <mat-card-actions>
-                            <button (click)="onBuy([{ value: 8, label: 'productMinePointPackage' }, { value: 5, label: 'productMinePointPackageBonus', condition: checkbox.checked }])" mat-raised-button
-                            color="primary">{{'productBuyNow' | translate | async}}</button>
-                        <!-- <app-payment-request [amount]="1000" label="lol"></app-payment-request> -->
+                        <button
+                            (click)="onBuy([{ value: 8, label: 'productMinePointPackage' }, { value: 5, label: 'productMinePointPackageBonus', condition: checkbox.checked }])"
+                            mat-raised-button color="primary">{{'productBuyNow' | translate | async}}</button>
                     </mat-card-actions>
                 </mat-card>
-                <!-- <mat-card class="package example-card">
-                    <mat-card-header>
-                        <mat-card-title>{{'productGreedyStevePackage' | translate | async}}</mat-card-title>
-                        <mat-card-subtitle>$4.49 {{'productPerMonth' | translate | async}}</mat-card-subtitle>
-                    </mat-card-header>
-                    <img mat-card-image src="../../assets/packages/steve.png" alt="Photo of a Shiba Inu">
-                    <mat-card-content>
-                        <p>
-                            {{'productGreedyStevePackageDescription' | translate | async}}
-                        </p>
-                    </mat-card-content>
-                    <mat-card-actions>
-                        <button mat-raised-button color="primary">{{'productBuyNow' | translate | async}}</button>
-                    </mat-card-actions>
-                </mat-card> -->
             </div>
         </div>
-        <!-- <div class="packages premium">
-            <div class="packages-name">
-                {{'productPremium' | translate | async}}
-            </div>
-            <ul class="packages-info">
-                <li>{{'productNoAds' | translate | async}}</li>
-            </ul>
-            <div class="packages-offer">
-                <mat-card class="package example-card">
-                    <mat-card-header>
-                        <mat-card-title>{{'productImpatientStevePackage' | translate | async}}</mat-card-title>
-                        <mat-card-subtitle>$5.49 {{'productPerMonth' | translate | async}}</mat-card-subtitle>
-                    </mat-card-header>
-                    <img mat-card-image src="../../assets/packages/impatient-steve.png" alt="Photo of a Shiba Inu">
-                    <mat-card-content>
-                        <p>
-                            {{'productImpatientStevePackageDescription' | translate | async}}
-                        </p>
-                    </mat-card-content>
-                    <mat-card-actions>
-                        <button mat-raised-button color="primary">{{'productBuyNow' | translate | async}}</button>
-                    </mat-card-actions>
-                </mat-card>
-                <mat-card class="package example-card">
-                    <mat-card-header>
-                        <mat-card-title>{{'productDiamondStevePackage' | translate | async}}</mat-card-title>
-                        <mat-card-subtitle>$8.49 {{'productPerMonth' | translate | async}}</mat-card-subtitle>
-                    </mat-card-header>
-                    <img mat-card-image src="../../assets/packages/rich-steve.jpg" alt="Photo of a Shiba Inu">
-                    <mat-card-content>
-                        <p>
-                            {{'productDiamondStevePackageDescription' | translate | async}}
-                        </p>
-                    </mat-card-content>
-                    <mat-card-actions>
-                        <button mat-raised-button color="primary">{{'productBuyNow' | translate | async}}</button>
-                    </mat-card-actions>
-                </mat-card>
-            </div>
-        </div> -->
     </div>
 </div>

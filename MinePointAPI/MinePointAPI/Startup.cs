@@ -34,6 +34,7 @@ namespace MinePointAPI
 			services.AddTransient<IUserService, UserService>();
 			services.AddTransient<IUserRepository, UserRepository>();
 			services.AddTransient<IPaymentwallService, PaymentwallService>();
+			services.AddTransient<IMailService, MailService>();
 
 			services.AddCors(options =>
 			{

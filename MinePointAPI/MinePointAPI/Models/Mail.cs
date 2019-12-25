@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace MinePointAPI.Models
 {
-	public class User
+	public class Mail
 	{
-		public Guid ID { get; set; }
-		public string Mail { get; set; }
-		public string Password { get; set; }
+		public string Recipient { get; set; }
+		public string Subject { get; set; }
+		public string Body { get; set; }
 	}
 }
