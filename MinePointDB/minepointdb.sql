@@ -21,8 +21,11 @@ USE `minepoint`;
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `ID` char(38) NOT NULL,
-  `mail` varchar(254) NOT NULL,
-  `password` char(65) NOT NULL,
+  `Mail` varchar(254) NOT NULL,
+  `Password` char(65) NOT NULL,
+  `SubscriptionExpiration` datetime DEFAULT NULL,
+  `Ram` int(11) DEFAULT 0,
+  `SetUp` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

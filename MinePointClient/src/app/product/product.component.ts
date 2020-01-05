@@ -29,6 +29,7 @@ class ProductCondition extends Product {
 export class ProductComponent implements OnInit, AfterViewInit {
   @ViewChild('slider', { static: false }) slider: MatSlider;
   @ViewChild('checkbox', { static: false }) checkbox: MatCheckbox;
+  public setUpPayed: boolean;
   public sliderStartVal: number;
   public sliderDescriptionTranslated: string;
   public ram: number;
@@ -45,6 +46,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
     private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
+    this.userService.updateUser()
+      .subscribe(user => this.setUpPayed = user ? user.setUp : false);
     const sliderStartVal = 4;
     this.sliderStartVal = sliderStartVal;
     this.update(sliderStartVal);
@@ -109,7 +112,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
             });
 
             dialogRef.afterClosed().subscribe(result => {
-              console.log(result);
               this.dialogResult = result;
             });
           });

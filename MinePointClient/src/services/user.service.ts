@@ -34,21 +34,28 @@ export class UserService {
   }
 
   public isAuthorized(): Observable<boolean> {
-    const tokenStr = this.cookieService.get('user');
-    if (!tokenStr) {
+    const userToken = this.getUserToken();
+    if (!userToken || !userToken.value) {
       return this.$notAuthorized;
     }
-    const sessionId: string = (JSON.parse(tokenStr) as Token<User>).session.id;
-    return this.http.get<boolean>(`${this.controllerApi}GetTokenValid/${sessionId}`);
+    return this.http.get<boolean>(`${this.controllerApi}GetTokenValid/${userToken.session.id}`);
   }
 
-  public getUser(): User {
+  public getUserToken(): Token<User> {
     const tokenStr = this.cookieService.get('user');
-    return tokenStr ? (JSON.parse(tokenStr) as Token<User>).value : null;
+    return tokenStr ? (JSON.parse(tokenStr) as Token<User>) : null;
+  }
+
+  public updateUser(): Observable<User> {
+    const userToken = this.getUserToken();
+    if (!userToken || !userToken.value) {
+      return this.$emptyUser;
+    }
+    return this.filterUser(this.http.get<User>(`${this.controllerApi}GetUser/${userToken.value.id}`));
   }
 
   public deleteUserCookie() {
-    this.cookieService.delete('user');
+    this.cookieService.delete('user', '/');
   }
 
   public createUser(user: User): Observable<User> {
@@ -63,7 +70,7 @@ export class UserService {
     return this.filterToken(this.http.post<Token<User>>(`${this.controllerApi}PostUserAndLogin`, user));
   }
 
-  public updatePassword(userId: string, newPassword: string): Observable<Token<User>> {
+  public updatePasswordAndLogin(userId: string, newPassword: string): Observable<Token<User>> {
     return this.filterToken(this.http.put<Token<User>>(`${this.controllerApi}PutUserPasswordAndLogin/${userId}?newPassword=${newPassword}`, null));
   }
 
@@ -71,8 +78,12 @@ export class UserService {
     return $user
       .pipe(
         map(user => ({
+          id: user.id,
           mail: user.mail,
           password: null,
+          subscriptionExpiration: user.subscriptionExpiration,
+          ram: user.ram,
+          setUp: user.setUp,
         }) as User)
       );
   }
@@ -89,6 +100,9 @@ export class UserService {
             id: token.value.id,
             mail: token.value.mail,
             password: null,
+            subscriptionExpiration: token.value.subscriptionExpiration,
+            ram: token.value.ram,
+            setUp: token.value.setUp,
           },
         } as Token<User> : token)
       );

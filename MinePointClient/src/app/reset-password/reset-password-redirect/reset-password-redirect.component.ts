@@ -58,9 +58,12 @@ export class ResetPasswordRedirectComponent implements OnInit {
       id: this.userId,
       mail: null,
       password: this.resetPasswordRedirectForm.value.password,
+      subscriptionExpiration: null,
+      ram: null,
+      setUp: null,
     };
     this.state = StateEnum.Pending;
-    this.userService.updatePassword(user.id, user.password)
+    this.userService.updatePasswordAndLogin(user.id, user.password)
       .subscribe(
         token => {
           console.log(token);

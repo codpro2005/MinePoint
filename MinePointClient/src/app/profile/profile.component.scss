@@ -40,6 +40,16 @@
         }
       }
     }
+
+    .actions {
+      margin-top: 0.5rem;
+      display: flex;
+      justify-content: center;
+
+      .action {
+        font-size: 1.1rem;
+      }
+    }
   }
 }
 

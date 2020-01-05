@@ -14,6 +14,9 @@ namespace MinePointAPI.Models
 		public Guid? Id { get; set; }
 		public string Mail { get; set; }
 		public string Password { get; set; }
+		public DateTime? SubscriptionExpiration { get; set; }
+		public int Ram { get; set; }
+		public bool SetUp { get; set; }
 
 		public bool ValidMail =>
 			User.Validate(
@@ -45,6 +48,16 @@ namespace MinePointAPI.Models
 			this.Id = id;
 			this.Mail = mail;
 			this.Password = password;
+		}
+
+		public User(Guid id, string mail, string password, DateTime? subscriptionExpiration, int ram, bool setUp)
+		{
+			this.Id = id;
+			this.Mail = mail;
+			this.Password = password;
+			this.SubscriptionExpiration = subscriptionExpiration;
+			this.Ram = ram;
+			this.SetUp = setUp;
 		}
 
 		public void ThrowOnInvalidMail()

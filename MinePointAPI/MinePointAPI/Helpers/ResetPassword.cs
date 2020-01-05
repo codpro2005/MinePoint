@@ -10,7 +10,7 @@ namespace MinePointAPI.Helpers
 		string Route { get; }
 		void AddRouteId(Guid routeId, Guid userId);
 		bool RouteIdValid(Guid routeId);
-		Guid GetUserIdFromRoute(Guid routeId);
+		Guid? GetUserIdFromRoute(Guid routeId);
 	}
 
 	internal class Route
@@ -55,7 +55,7 @@ namespace MinePointAPI.Helpers
 			return ResetPassword.RouteIds.Any(route => route.Value == routeId);
 		}
 
-		public Guid GetUserIdFromRoute(Guid routeId)
+		public Guid? GetUserIdFromRoute(Guid routeId)
 		{
 			return ResetPassword.RouteIds.Find(route => route.Value == routeId).UserId;
 		}

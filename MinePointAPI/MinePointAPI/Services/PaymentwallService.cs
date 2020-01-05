@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MinePointAPI.Services
@@ -10,12 +11,15 @@ namespace MinePointAPI.Services
 	{
 		string GetOnetimePaymentLink(Guid userId, string productId, float amount, string currencyCode, string name);
 		string GetSubscriptionLink();
-		string GetPingback();
+		string GetPingback(string uid, int type, string reference, int sign_version, string sig, int is_test, string goodsid, int? slength, string? speriod);
 	}
 	public class PaymentwallService : IPaymentwallService
 	{
-		public PaymentwallService()
+		private readonly IUserService UserService;
+		public PaymentwallService(IUserService userService)
 		{
+			this.UserService = userService;
+
 			Paymentwall_Base.setApiType(Paymentwall_Base.API_GOODS);
 			Paymentwall_Base.setAppKey("2c134bfd8bc5ffec9abb9f0632adf8ea");
 			Paymentwall_Base.setSecretKey("4762232d04b9b1c336e5d95c232f31e0");
@@ -76,33 +80,31 @@ namespace MinePointAPI.Services
 			return widget.getUrl();
 		}
 
-		public string GetPingback()
+		public string GetPingback(string uid, int type, string reference, int sign_version, string sig, int is_test, string goodsid, int? slength, string? speriod)
 		{
-			//NameValueCollection parameters = Request.QueryString;
-			//Paymentwall_Pingback pingback = new Paymentwall_Pingback(parameters, HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"]);
-			//if (pingback.validate())
-			//{
-			//	string productId = pingback.getProduct().getId();
-			//	if (pingback.isDeliverable())
-			//	{
-			//		//deliver the product
-			//	}
-			//	else if (pingback.isCancelable())
-			//	{
-			//		//withdraw the product
-			//	}
-			//	return "OK"; // Paymentwall expects response to be OK, otherwise the pingback will be resent
-			//}
-			//else
-			//{
-			//	return pingback.getErrorSummary();
-			//}
+			try
+			{
+				var ram = int.Parse(ParseProduct("RAM", goodsid));
+				var setUp = ParseProduct("SET_UP", goodsid) == "True";
+				this.UserService.PutUserPayments(Guid.Parse(uid), ram, setUp);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+				throw;
+			}
 			return "OK";
 		}
 
-		private string GetProductFinal(object value, string name)
+		private static string ParseProduct(string name, string input)
 		{
-			return value != null ? $"{name}:{value}" : string.Empty;
+			var valu2e = new Regex($"(?<={name}:)[^,]*(?=,)?").Match(input).Value;
+			return valu2e;
 		}
+
+		//private string GetProductFinal(object value, string name)
+		//{
+		//	return value != null ? $"{name}:{value}" : string.Empty;
+		//}
 	}
 }

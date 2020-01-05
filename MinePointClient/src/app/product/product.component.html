@@ -18,12 +18,12 @@
                         </p>
                         <mat-slider #slider min="4" max="30" [value]="sliderStartVal"></mat-slider>
                         <p class="slider-value">{{sliderDescriptionTranslated}}</p>
-                        <mat-checkbox #checkbox>{{'minePointPackageBonusDescription' | translate | async}}
+                        <mat-checkbox *ngIf="!setUpPayed" #checkbox>{{'minePointPackageBonusDescription' | translate | async}}
                         </mat-checkbox>
                     </mat-card-content>
                     <mat-card-actions>
                         <button
-                            (click)="onBuy([{ value: cost, reward: 'rAM:' + ram, label: 'minePointPackage' }, { value: 5, reward: 'sET_UP:True', label: 'minePointPackageBonus', condition: checkbox.checked }])"
+                            (click)="onBuy([{ value: cost, reward: 'RAM:' + ram, label: 'minePointPackage' }, { value: 5, reward: 'SET_UP:True', label: 'minePointPackageBonus', condition: checkbox.checked }])"
                             mat-raised-button color="primary">{{'buyNow' | translate | async}}</button>
                     </mat-card-actions>
                 </mat-card>

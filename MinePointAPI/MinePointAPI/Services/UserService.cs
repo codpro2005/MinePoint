@@ -18,6 +18,7 @@ namespace MinePointAPI.Services
 		Token<User> PostUserAndLogin(User user);
 		User PutUserPassword(Guid id, string newPassword);
 		Token<User> PutUserPasswordAndLogin(Guid id, string newPassword);
+		User PutUserPayments(Guid id, int ram, bool setUp);
 	}
 	public class UserService : IUserService
 	{
@@ -62,7 +63,14 @@ namespace MinePointAPI.Services
 		public Token<User> PostUserLogin(User user)
 		{
 			user.ThrowOnInvalid();
-			var result = this.UserRepository.PostUserLogin(user);
+			var userId = this.UserRepository.GetUserIdByMail(user.Mail);
+			if (userId == null)
+			{
+				return null;
+			}
+			var foundUser = this.GetUser((Guid)userId);
+			foundUser.Password = user.Password;
+			var result = this.UserRepository.PostUserLogin((Guid)foundUser.Id, foundUser.Password);
 			result?.Value.HidePassword();
 			return result;
 		}
@@ -70,29 +78,57 @@ namespace MinePointAPI.Services
 		public Token<User> PostUserAndLogin(User user)
 		{
 			user.ThrowOnInvalid();
-			var result = this.UserRepository.PostUserLogin(this.UserRepository.PostUser(user));
+			var createdUser = this.UserRepository.PostUser(user);
+			var result = this.UserRepository.PostUserLogin((Guid)createdUser.Id, createdUser.Password);
 			result?.Value.HidePassword();
 			return result;
 		}
 
 		public User PutUserPassword(Guid id, string newPassword)
 		{
-			var user = this.GetUser(this.ResetPassword.GetUserIdFromRoute(id));
+			var userId = this.ResetPassword.GetUserIdFromRoute(id);
+			if (userId == null)
+			{
+				return null;
+			}
+			var user = this.GetUser((Guid)userId);
 			user.Password = newPassword;
 			user.ThrowOnInvalidPassword();
-			var result = this.UserRepository.PutUser(user);
-			result.HidePassword();
-			return result;
+			var updatedUser = this.UserRepository.PutUser(user);
+			updatedUser.HidePassword();
+			return updatedUser;
 		}
 
 		public Token<User> PutUserPasswordAndLogin(Guid id, string newPassword)
 		{
-			var user = this.GetUser(this.ResetPassword.GetUserIdFromRoute(id));
+			var userId = this.ResetPassword.GetUserIdFromRoute(id);
+			if (userId == null)
+			{
+				return null;
+			}
+			var user = this.GetUser((Guid)userId);
 			user.Password = newPassword;
 			user.ThrowOnInvalidPassword();
-			var result = this.UserRepository.PostUserLogin(this.UserRepository.PutUser(user));
+			var updatedUser = this.UserRepository.PutUser(user);
+			var result = this.UserRepository.PostUserLogin((Guid)updatedUser.Id, updatedUser.Password);
 			result?.Value.HidePassword();
 			return result;
+		}
+
+		public User PutUserPayments(Guid id, int ram, bool setUp)
+		{
+			var currentUser = this.GetUser(id);
+			if (currentUser == null)
+			{
+				return null;
+			}
+			var currentSubscriptionExpiration = currentUser.SubscriptionExpiration;
+			currentUser.SubscriptionExpiration = currentSubscriptionExpiration == null || currentSubscriptionExpiration.Value < DateTime.Now ? DateTime.Now.AddMonths(1) : currentSubscriptionExpiration.Value.AddMonths(1);
+			currentUser.Ram = ram;
+			currentUser.SetUp = currentUser.SetUp || setUp;
+			var updatedUser = this.UserRepository.PutUser(currentUser);
+			updatedUser.HidePassword();
+			return updatedUser;
 		}
 	}
 }

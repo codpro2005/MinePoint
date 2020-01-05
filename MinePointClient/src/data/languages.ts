@@ -79,6 +79,7 @@ interface ILanguage {
     submit: string;
     greetings: string;
     signIn: string;
+    signOut: string;
     signUp: string;
     unexpectedFail: string;
     username: string;
@@ -166,6 +167,7 @@ export const languages: ILanguages = {
         submit: 'Abschicken',
         greetings: 'MfG, ',
         signIn: 'Einloggen',
+        signOut: 'Ausloggen',
         signUp: 'Registrieren',
         unexpectedFail: 'Es ist ein unerwarteter Fehler aufgetreten! Bitte konktaktieren Sie uns und schicken Sie die folgende Zahl mit',
         username: 'Benutzername',
@@ -251,6 +253,7 @@ export const languages: ILanguages = {
         submit: 'Submit',
         greetings: 'Best regards, ',
         signIn: 'Sign in',
+        signOut: 'Sign out',
         signUp: 'Sign up',
         unexpectedFail: 'An unexpected error has occurred! Please contact us and mention the following number',
         username: 'Username',
@@ -336,6 +339,7 @@ export const languages: ILanguages = {
         submit: '发送',
         greetings: '最好的问候，',
         signIn: '登录',
+        signOut: '登出',
         signUp: '注册',
         unexpectedFail: '发生意外的错误！请与我们联系并提及以下电话号码',
         username: '用户名',

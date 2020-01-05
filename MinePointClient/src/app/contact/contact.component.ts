@@ -26,7 +26,8 @@ export class ContactComponent implements OnInit {
       subject: ['', [Validators.required]],
       body: ['', [Validators.required]]
     });
-    const user = this.userService.getUser();
+    const userToken = this.userService.getUserToken();
+    const user = userToken ? userToken.value : null;
     if (user) {
       this.contactForm.controls.recipient.setValue(user.mail);
     }

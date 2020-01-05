@@ -65,7 +65,7 @@ export class SignInComponent implements OnInit {
           this.cookieService.delete('user');
           this.cookieService.set('user', JSON.stringify(token), new Date(token.session.expirationDate), '/');
           this.userService.checkAuthorized();
-          this.router.navigateByUrl('/profile');
+          this.router.navigateByUrl(absoluteRoute.profile);
         } else {
           this.userFound = false;
         }

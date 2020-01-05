@@ -33,7 +33,7 @@ namespace MinePointAPI.Controllers
 		[HttpGet]
 		public string GetPingback(string uid, int type, string reference, int sign_version, string sig, int is_test, string goodsid, int? slength, string? speriod)
 		{
-			return this.PaymentwallService.GetPingback();
+			return this.PaymentwallService.GetPingback(uid, type, reference, sign_version, sig, is_test, goodsid, slength, speriod);
 		}
 	}
 }

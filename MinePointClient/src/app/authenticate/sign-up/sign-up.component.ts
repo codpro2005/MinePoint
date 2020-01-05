@@ -10,6 +10,7 @@ import { ErrorMessagesService } from 'src/services/error-messages.service';
 import { CookieService } from 'ngx-cookie-service';
 import { PasswordConfirmErrorMatcher } from 'src/data/error-matchers';
 import { StateEnum } from 'src/data/state';
+import { absoluteRoute } from 'src/data/routes';
 
 @Component({
   selector: 'app-sign-up',
@@ -55,11 +56,10 @@ export class SignUpComponent implements OnInit {
     if (this.signUpForm.invalid) {
       return;
     }
-    const user: User = {
-      id: null,
+    const user = {
       mail: this.signUpForm.value.mail,
       password: this.signUpForm.value.password,
-    };
+    } as User;
     this.state = StateEnum.Pending;
     this.userService.createUserAndLogin(user)
       .subscribe(
@@ -68,7 +68,7 @@ export class SignUpComponent implements OnInit {
           this.cookieService.delete('user');
           this.cookieService.set('user', JSON.stringify(token), new Date(token.session.expirationDate), '/');
           this.userService.checkAuthorized();
-          this.router.navigateByUrl('/profile');
+          this.router.navigateByUrl(absoluteRoute.profile);
         },
         error => {
           const status = error.status;

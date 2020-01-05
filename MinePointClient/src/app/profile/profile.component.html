@@ -2,23 +2,26 @@
     <img class="background" src="../../assets/compressed/background-image.jpg">
 </div>
 <div class="content">
-    <div class="inner">
+    <div *ngIf="user" class="inner">
         <span class="title">{{'profile' | translate | async }}</span>
         <div class="infos">
             <div class="info">
                 <span class="name">{{'mail' | translate | async }}:</span>
                 <div class="values">
-                    <span class="value">{{userMail}}</span>
+                    <span class="value">{{user.mail}}</span>
                 </div>
             </div>
             <div class="info">
                 <span class="name">{{'subscriptionExpirationDate' | translate | async }}:</span>
                 <div class="value-and-interact">
-                    <span class="value">{{getExpirationDate()}}</span>
-                    <button mat-button color="primary"
-                        class="interact">{{'cancel' | translate | async }}</button>
+                    <span class="value">{{getDateFormat(user.subscriptionExpiration)}}</span>
+                    <!-- <button mat-button color="primary"
+                        class="interact">{{'cancel' | translate | async }}</button> -->
                 </div>
             </div>
+        </div>
+        <div class="actions">
+            <button class="action" mat-button color="primary" (click)="signOut()">{{'signOut' | translate | async}}</button>
         </div>
     </div>
 </div>
