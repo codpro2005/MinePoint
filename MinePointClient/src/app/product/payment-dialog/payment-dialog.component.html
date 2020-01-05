@@ -1,3 +1,9 @@
-<iframe class="content-frame" [src]="data.url" frameborder="0">
+<header>
+    <mat-icon (click)="onCloseClick()" class="close-btn" aria-hidden="false">close</mat-icon>
+</header>
+<div *ngIf="!isLoaded" class="spinner-container">
+    <mat-spinner></mat-spinner>
+</div>
+<iframe #frame (load)="onLoad()" class="frame" [src]="data.url" frameborder="0">
     <p>Your browser does not support iframes.</p>
 </iframe>

@@ -43,7 +43,7 @@ namespace MinePointAPI.Helpers
 			var base64Hash = Convert.ToBase64String(hashBytes);
 
 			// Format hash with extra information
-			return string.Format("$MPHASH$V1${0}${1}", iterations, base64Hash);
+			return $"$MPHASH$V1${iterations}${base64Hash}";
 		}
 
 		/// <summary>
@@ -81,9 +81,9 @@ namespace MinePointAPI.Helpers
 			}
 
 			// Extract iteration and Base64 string
-			var splittedHashString = hashedPassword.Replace("$MPHASH$V1$", "").Split('$');
-			var iterations = int.Parse(splittedHashString[0]);
-			var base64Hash = splittedHashString[1];
+			var splitHashString = hashedPassword.Replace("$MPHASH$V1$", "").Split('$');
+			var iterations = int.Parse(splitHashString[0]);
+			var base64Hash = splitHashString[1];
 
 			// Get hash bytes
 			var hashBytes = Convert.FromBase64String(base64Hash);
@@ -94,7 +94,7 @@ namespace MinePointAPI.Helpers
 
 			// Create hash with given salt
 			var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations);
-			byte[] hash = pbkdf2.GetBytes(HashSize);
+			var hash = pbkdf2.GetBytes(HashSize);
 
 			// Get result
 			for (var i = 0; i < HashSize; i++)

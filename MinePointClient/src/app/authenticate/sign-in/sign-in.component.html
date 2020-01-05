@@ -1,20 +1,19 @@
 <form [formGroup]="signInForm" (ngSubmit)="onSubmit()" class="sign-in">
     <mat-form-field>
         <input #mainInput matInput required formControlName="mail" autocomplete="off">
-        <mat-placeholder>{{'authenticateMail' | translate | async }}</mat-placeholder>
+        <mat-placeholder>{{'mail' | translate | async }}</mat-placeholder>
         <mat-error *ngIf="signInForm.controls.mail.hasError('required')">
-            {{'authenticateMailRequired' | translate | async }}
+            {{'mailRequired' | translate | async }}
         </mat-error>
         <mat-error *ngIf="signInForm.controls.mail.hasError('email')">
-            {{'authenticateMailInvalid' | translate | async }}
+            {{'mailInvalid' | translate | async }}
         </mat-error>
     </mat-form-field>
-    <br />
     <mat-form-field>
         <input matInput required type="password" formControlName="password" autocomplete="off">
-        <mat-placeholder>{{'authenticatePassword' | translate | async }}</mat-placeholder>
+        <mat-placeholder>{{'password' | translate | async }}</mat-placeholder>
         <mat-error *ngIf="signInForm.controls.password.hasError('required')">
-            {{'authenticatePasswordRequired' | translate | async }}
+            {{'passwordRequired' | translate | async }}
         </mat-error>
         <mat-error *ngIf="signInForm.controls.password.hasError('minlength')">
             {{getPasswordMinLengthError()}}
@@ -22,18 +21,23 @@
         <mat-error *ngIf="signInForm.controls.password.hasError('maxlength')">
             {{getPasswordMaxLengthError()}}
         </mat-error>
-        <mat-error *ngIf="signInForm.controls.password.hasError('digitMin')">
-            {{getPasswordDigitMinError()}}
-        </mat-error>
         <mat-error *ngIf="signInForm.controls.password.hasError('upperMin')">
             {{getPasswordUpperMinError()}}
         </mat-error>
+        <mat-error *ngIf="signInForm.controls.password.hasError('digitMin')">
+            {{getPasswordDigitMinError()}}
+        </mat-error>
     </mat-form-field>
-    <br />
-    <div class="button-container">
-        <button mat-flat-button color="primary" type="submit">{{'authenticateSignIn' | translate | async }}</button>
-    </div>
-    <div *ngIf="responseError" class="response">
-        <span class="error">{{responseError}}</span>
+    <button mat-button type="button"
+        [routerLink]="absoluteRoute.resetPassword">{{'forgotPassword' | translate | async }}</button>
+    <button mat-flat-button color="primary" type="submit">{{'signIn' | translate | async }}</button>
+    <div *ngIf="userFound === false || state === 'error'" class="message error">
+        <span *ngIf="userFound === false">
+            {{'userNotFound' | translate | async}}
+        </span>
+        <span *ngIf="state === 'error'">
+            {{'unexpectedFail' | translate | async }} =>
+            {{errorStatus}}
+        </span>
     </div>
 </form>

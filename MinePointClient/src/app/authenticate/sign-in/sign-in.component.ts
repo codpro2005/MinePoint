@@ -4,11 +4,12 @@ import { User } from 'src/data/user';
 import { MyValidators } from 'src/data/my-validators';
 import { CookieService } from 'ngx-cookie-service';
 import { UserService } from 'src/services/user.service';
-import * as moment from 'moment';
 import { filter } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { TranslateService } from 'src/services/translate.service';
 import { ErrorMessagesService } from 'src/services/error-messages.service';
+import { absoluteRoute } from 'src/data/routes';
+import { StateEnum } from 'src/data/state';
 
 @Component({
   selector: 'app-sign-in',
@@ -16,16 +17,19 @@ import { ErrorMessagesService } from 'src/services/error-messages.service';
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit {
+  // @ViewChild('mainInput', { static: true }) mainInput: ElementRef;
   public signInForm: FormGroup;
-  public responseError: string;
-  @ViewChild('mainInput', { static: true }) mainInput: ElementRef;
+  public absoluteRoute = absoluteRoute;
+  public state: StateEnum;
+  public errorStatus: string;
+  public userFound: boolean;
 
   constructor(private formBuilder: FormBuilder, private myValidators: MyValidators, private cookieService: CookieService, private userService: UserService, private router: Router, private errorMessagesService: ErrorMessagesService) { }
 
   ngOnInit() {
     this.signInForm = this.formBuilder.group({
       mail: ['', [Validators.required, this.myValidators.email]],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(30), this.myValidators.charsInRange('0-9', 'digit'), this.myValidators.charsInRange('A-Z', 'upper')]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(30), this.myValidators.charsInRange('A-Z', 'upper'), this.myValidators.charsInRange('0-9', 'digit')]],
     });
 
     // this.mainInput.nativeElement.focus();
@@ -51,19 +55,25 @@ export class SignInComponent implements OnInit {
     if (this.signInForm.invalid) {
       return;
     }
-
     const user: User = this.signInForm.value;
-
+    this.state = StateEnum.Pending;
     this.userService.login(user)
       .subscribe(token => {
+        this.state = StateEnum.Success;
         if (token) {
-          this.cookieService.delete('token');
-          this.cookieService.set('token', JSON.stringify(token), moment().add(1, 'week').toDate(), '/');
+          this.userFound = true;
+          this.cookieService.delete('user');
+          this.cookieService.set('user', JSON.stringify(token), new Date(token.session.expirationDate), '/');
           this.userService.checkAuthorized();
           this.router.navigateByUrl('/profile');
         } else {
-          console.log('wrong password');
+          this.userFound = false;
         }
+      },
+      error => {
+        const status = error.status;
+        this.state = StateEnum.Error;
+        this.errorStatus = status ? status : 'unknown';
       });
   }
 }

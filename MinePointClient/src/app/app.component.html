@@ -3,8 +3,9 @@
   <nav>
     <div class="main">
       <a class="logo" routerLink="/"><img src="../assets/compressed/logo/logoSmallGreen.svg"></a>
-      <mat-icon (click)="setExpand(!isExpand)" class="expand-btn" aria-hidden="false"
-        aria-label="Example thumbs up SVG icon">{{!isExpand ? 'menu' : 'close'}}</mat-icon>
+      <mat-icon (click)="setExpand(!isExpand)" class="expand-btn" aria-hidden="false">
+        {{!isExpand ? 'menu' : 'close'}}
+      </mat-icon>
     </div>
     <ul class="topics">
       <div class="left">
@@ -42,9 +43,9 @@
       </div>
       <div class="right">
         <li class="topic">
-          <button *ngIf="!isAuthorized" mat-button (click)="setExpand(false)" [routerLink]="absoluteRoute.authenticate"
+          <button *ngIf="!isAuthorized" mat-button (click)="setExpand(false)" [routerLink]="absoluteRoute.authenticate.self"
             class="text"
-            [color]="getIsActive(absoluteRoute.authenticate) ? 'primary' : ''">{{'authenticate' | translate | async}}</button>
+            [color]="getIsActive(absoluteRoute.authenticate.self) ? 'primary' : ''">{{'authenticate' | translate | async}}</button>
           <button *ngIf="isAuthorized" mat-button (click)="setExpand(false)" [routerLink]="absoluteRoute.profile"
             class="text" [color]="getIsActive(absoluteRoute.profile) ? 'primary' : ''">
             <mat-icon>account_circle

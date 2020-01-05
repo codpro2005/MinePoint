@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MinePointAPI.Helpers;
 using MinePointAPI.Repositories;
 using MinePointAPI.Services;
 
@@ -35,6 +36,8 @@ namespace MinePointAPI
 			services.AddTransient<IUserRepository, UserRepository>();
 			services.AddTransient<IPaymentwallService, PaymentwallService>();
 			services.AddTransient<IMailService, MailService>();
+			services.AddTransient<IResetPassword, ResetPassword>();
+			services.AddTransient<IRouteService, RouteService>();
 
 			services.AddCors(options =>
 			{

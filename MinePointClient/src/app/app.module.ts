@@ -18,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthenticateComponent } from './authenticate/authenticate.component';
 import { SignInComponent } from './authenticate/sign-in/sign-in.component';
 import { SignUpComponent } from './authenticate/sign-up/sign-up.component';
@@ -26,6 +27,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { PaymentDialogComponent } from './product/payment-dialog/payment-dialog.component';
 import { MyValidators } from 'src/data/my-validators';
 import { CookieService } from 'ngx-cookie-service';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ResetPasswordRedirectComponent } from './reset-password/reset-password-redirect/reset-password-redirect.component';
+import { ContentComponent } from './content/content.component';
+import { ResetPasswordFailComponent } from './reset-password/reset-password-fail/reset-password-fail.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +44,11 @@ import { CookieService } from 'ngx-cookie-service';
     AuthenticateComponent,
     SignInComponent,
     SignUpComponent,
-    ProfileComponent
+    ProfileComponent,
+    ResetPasswordComponent,
+    ResetPasswordRedirectComponent,
+    ContentComponent,
+    ResetPasswordFailComponent,
   ],
   imports: [
     HttpClientModule,
@@ -54,10 +63,11 @@ import { CookieService } from 'ngx-cookie-service';
     MatInputModule,
     MatCheckboxModule,
     MatDialogModule,
-    MatSliderModule
+    MatSliderModule,
+    MatProgressSpinnerModule,
   ],
   providers: [MyValidators, CookieService],
-  bootstrap: [AppComponent],
-  entryComponents: [PaymentDialogComponent],
+  bootstrap: [AppComponent, ],
+  entryComponents: [PaymentDialogComponent, ],
 })
 export class AppModule { }

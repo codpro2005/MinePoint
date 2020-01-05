@@ -1,27 +1,39 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnChanges, AfterViewInit } from '@angular/core';
 import { PaymentService } from 'src/services/payment.service';
 import { TranslateService } from 'src/services/translate.service';
 import { UserService } from 'src/services/user.service';
 import { Router } from '@angular/router';
-import { absoluteRoute } from 'src/data/routes';
 import { MatDialog } from '@angular/material/dialog';
 import { PaymentDialogComponent } from './payment-dialog/payment-dialog.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { LanguageEnum } from 'src/data/languages';
+import { MatSlider } from '@angular/material/slider';
+import { absoluteRoute } from 'src/data/routes';
+import { MatCheckbox } from '@angular/material/checkbox';
+
+class Product {
+  value: number;
+  reward: string;
+  label: string;
+}
+
+class ProductCondition extends Product {
+  condition?: boolean;
+}
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
-export class ProductComponent implements OnInit {
-  @ViewChild('slider', { static: false }) slider: any;
-  @ViewChild('checkbox', { static: false }) checkbox: any;
+export class ProductComponent implements OnInit, AfterViewInit {
+  @ViewChild('slider', { static: false }) slider: MatSlider;
+  @ViewChild('checkbox', { static: false }) checkbox: MatCheckbox;
   public sliderStartVal: number;
-  private supportedPaymentMethods: any[];
-  private paymentDetails: any;
-  private options: any;
-  private absoluteRoute = absoluteRoute;
+  public sliderDescriptionTranslated: string;
+  public ram: number;
+  public cost: number;
+  private costMultiplier = 2;
   private dialogResult: any;
 
   constructor(
@@ -33,55 +45,81 @@ export class ProductComponent implements OnInit {
     private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
-    this.sliderStartVal = 4;
+    const sliderStartVal = 4;
+    this.sliderStartVal = sliderStartVal;
+    this.update(sliderStartVal);
   }
 
-  public onBuy(items: { value: number, label: string, condition?: boolean }[]) {
+  ngAfterViewInit() {
+    this.slider.input.asObservable()
+      .subscribe(slider => {
+        this.update(slider.value);
+      });
+  }
+
+  private update(value: number) {
+    this.ram = value;
+    this.cost = value * 2;
+    this.sliderDescriptionTranslated = this.translateService.getCustomTranslated(`${this.cost} CHF pro Monat für ${this.ram}GB an Ram.`, `${this.cost} CHF per month for ${this.ram}GB of RAM.`, `每月${this.cost} CHF可获得${this.ram}GB的RAM`);
+  }
+
+  private getValidCondition(productConditions: ProductCondition[]): Product[] {
+    const products: Product[] = [];
+    productConditions.forEach(productCondition => {
+      const condition = productCondition.condition;
+      const finalCondition = condition != null ? condition : true;
+      if (finalCondition) {
+        products.push({
+          value: productCondition.value,
+          reward: productCondition.reward,
+          label: this.getTranslated(productCondition.label),
+        });
+      }
+    });
+    return products;
+  }
+
+  private itemsToSingle(products: Product[]): Product {
+    const product: Product = {
+      value: 0,
+      reward: '',
+      label: '',
+    };
+    products.forEach(current => {
+      const notLast = products.indexOf(current) !== products.length - 1;
+      product.value += current.value;
+      product.reward += `${current.reward}${notLast ? ',' : ''}`;
+      product.label += `${current.label}${notLast ? ', ' : ''}`;
+    });
+    return product;
+  }
+
+  public onBuy(productConditions: ProductCondition[]) {
     this.userService.isAuthorized()
       .subscribe(isAuthorized => {
         if (isAuthorized) {
-          this.paymentService.getOnetimePaymentLink().subscribe(link => {
+          const products = this.getValidCondition(productConditions);
+          const product = this.itemsToSingle(products);
+          this.paymentService.getOnetimePaymentLink(product.reward, product.value, product.label).subscribe(link => {
             const dialogRef = this.dialog.open(PaymentDialogComponent, {
               width: '750px',
-              height: '550px',
+              height: '600px',
+              panelClass: 'paymentwall-dialog-container',
               data: { url: this.sanitizer.bypassSecurityTrustResourceUrl(link) }
             });
 
             dialogRef.afterClosed().subscribe(result => {
-              console.log('The dialog was closed');
+              console.log(result);
               this.dialogResult = result;
             });
           });
-
-          // const finalItems: { value: number, label: string }[] = [];
-          // items.forEach(item => {
-          //   item.condition = item.condition != null ? item.condition : true;
-          //   if (item.condition) {
-          //     finalItems.push({
-          //       value: item.value,
-          //       label: this.getTranslated(item.label),
-          //     });
-          //   }
-          // });
-          // this.doPayment(finalItems);
         } else {
-          this.router.navigateByUrl(absoluteRoute.authenticate);
+          this.router.navigateByUrl(absoluteRoute.authenticate.self);
         }
       });
   }
 
-  public getSliderDescriptionTranslated(): string {
-    const slider = this.slider;
-    const ram = slider ? slider.value : this.sliderStartVal;
-    const cost = ram * 2;
-    return this.translateService.getCustomTranslated(`${cost} CHF pro Monat für ${ram}GB an Ram.`, `${cost} CHF per month for ${ram}GB of RAM.`, `每月${cost} CHF可获得${ram}GB的RAM`);
-  }
-
   private getTranslated(value: string): string {
     return this.translateService.getTranslated(value);
-  }
-
-  private doPayment(items: { value: number, label: string }[]) {
-    this.paymentService.showPayment(items);
   }
 }

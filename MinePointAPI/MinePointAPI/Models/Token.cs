@@ -5,10 +5,25 @@ using System.Threading.Tasks;
 
 namespace MinePointAPI.Models
 {
-	public class Token
+	public class Token<T>
 	{
-		public Guid UserID { get; set; }
-		public Guid Value { get; set; }
-		public DateTime LatestValidDate { get; set; }
+		public Session Session { get; set; }
+		public T Value { get; set; }
+
+		public Token()
+		{
+
+		}
+
+		public Token(Session session)
+		{
+			this.Session = session;
+		}
+
+		public Token(Session session, T value)
+		{
+			this.Session = session;
+			this.Value = value;
+		}
 	}
 }

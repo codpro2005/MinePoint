@@ -23,7 +23,11 @@ export class TranslateService {
     return this.languageObservable
       .pipe(
         map(language => {
-          return languages[language][value];
+          const text = languages[language][value];
+          if (text === undefined) {
+            console.error(`Text couldn\'t be found for value ${value} in ${language}`);
+          }
+          return text;
         })
       );
   }
@@ -44,12 +48,22 @@ export class TranslateService {
   public getLanguage(): LanguageEnum {
     return this.language;
   }
+  public getLanguageAsNum(): number {
+    switch (this.language) {
+      case LanguageEnum.German:
+        return 0;
+      case LanguageEnum.English:
+        return 1;
+      case LanguageEnum.Chinese:
+        return 2;
+    }
+  }
 
   public getCustomTranslated(onGerman: string, onEnglish: string, onChinese: string): string {
     const paramaterLanguages: string[] = [onGerman, onEnglish, onChinese];
     const languagesKeys: string[] = Object.keys(languages);
     if (paramaterLanguages.length !== languagesKeys.length) {
-      throw new Error('Given amount of strings does not match amount of languages.');
+      console.error('Given amount of strings does not match amount of languages.');
     }
     return paramaterLanguages[languagesKeys.findIndex(language => language === this.language)];
   }

@@ -15,45 +15,45 @@ export class AboutUsComponent implements OnInit {
     this.members = [
       {
         img: '../../assets/compressed/about-us/silas-zahner.jpeg',
-        name: 'aboutUsSilasZahner',
-        function: 'aboutUsSilasZahnerFunction',
-        description: 'aboutUsSilasZahnerDescription'
+        name: 'silasZahner',
+        function: 'silasZahnerFunction',
+        description: 'silasZahnerDescription'
       },
       {
         img: '../../assets/compressed/about-us/christian-fuchs.jpeg',
-        name: 'aboutUsChristianFuchs',
-        function: 'aboutUsChristianFuchsFunction',
-        description: 'aboutUsChristianFuchsDescription'
+        name: 'christianFuchs',
+        function: 'christianFuchsFunction',
+        description: 'christianFuchsDescription'
       },
       {
         img: '../../assets/compressed/about-us/danilo-furrer.jpeg',
-        name: 'aboutUsDaniloFurrer',
-        function: 'aboutUsDaniloFurrerFunction',
-        description: 'aboutUsDaniloFurrerDescription'
+        name: 'daniloFurrer',
+        function: 'daniloFurrerFunction',
+        description: 'daniloFurrerDescription'
       },
       {
         img: '../../assets/compressed/about-us/kajendran-pulendran.jpeg',
-        name: 'aboutUsKajendranPulendran',
-        function: 'aboutUsKajendranPulendranFunction',
-        description: 'aboutUsKajendranPulendranDescription'
+        name: 'kajendranPulendran',
+        function: 'kajendranPulendranFunction',
+        description: 'kajendranPulendranDescription'
       },
       {
         img: '../../assets/compressed/about-us/chris-wolf.jpeg',
-        name: 'aboutUsChrisWolf',
-        function: 'aboutUsChrisWolfFunction',
-        description: 'aboutUsChrisWolfDescription'
+        name: 'chrisWolf',
+        function: 'chrisWolfFunction',
+        description: 'chrisWolfDescription'
       },
       {
         img: '../../assets/compressed/about-us/nils-chapman.jpeg',
-        name: 'aboutUsNilsChapman',
-        function: 'aboutUsNilsChapmanFunction',
-        description: 'aboutUsNilsChapmanDescription'
+        name: 'nilsChapman',
+        function: 'nilsChapmanFunction',
+        description: 'nilsChapmanDescription'
       },
       {
         img: '../../assets/compressed/about-us/gregor-muheim.jpeg',
-        name: 'aboutUsGregorMuheim',
-        function: 'aboutUsGregorMuheimFunction',
-        description: 'aboutUsGregorMuheimDescription'
+        name: 'gregorMuheim',
+        function: 'gregorMuheimFunction',
+        description: 'gregorMuheimDescription'
       }
     ];
   }

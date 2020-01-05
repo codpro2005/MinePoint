@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 4px;
 
   .inner {
     height: 100%;
@@ -25,7 +24,7 @@
         .function {
           font-size: 1.25rem;
           font-style: italic;
-          color: #D3D3D3;
+          color: #d3d3d3;
         }
 
         .description {

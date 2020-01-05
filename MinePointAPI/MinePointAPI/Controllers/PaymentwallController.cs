@@ -19,9 +19,9 @@ namespace MinePointAPI.Controllers
 		}
 
 		[HttpGet]
-		public string GetOnetimePaymentLink()
+		public string GetOnetimePaymentLink(Guid userId, string productId, float amount, string currencyCode, string name)
 		{
-			return this.PaymentwallService.GetOnetimePaymentLink();
+			return this.PaymentwallService.GetOnetimePaymentLink(userId, productId, amount, currencyCode, name);
 		}
 
 		[HttpGet]
@@ -31,7 +31,7 @@ namespace MinePointAPI.Controllers
 		}
 
 		[HttpGet]
-		public string GetPingback()
+		public string GetPingback(string uid, int type, string reference, int sign_version, string sig, int is_test, string goodsid, int? slength, string? speriod)
 		{
 			return this.PaymentwallService.GetPingback();
 		}

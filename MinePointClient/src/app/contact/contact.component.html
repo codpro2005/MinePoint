@@ -3,32 +3,45 @@
 </div>
 <div class="content">
     <div class="inner">
-        <form [formGroup]="contactForm" (submit)="onSubmit()">
-            <span class="title">{{'contactSendEMail' | translate | async}}</span>
-            <div class="form">
-                <mat-form-field>
-                    <input #mainInput matInput required type="text" formControlName="mail">
-                    <mat-placeholder class="placeholder">{{'contactMail' | translate | async}}</mat-placeholder>
-                    <mat-error *ngIf="contactForm.controls.mail.hasError('required')">
-                        {{'contactMailRequired' | translate | async}}
-                    </mat-error>
-                </mat-form-field>
-                <mat-form-field>
-                    <input matInput required type="text" formControlName="subject">
-                    <mat-placeholder class="placeholder">{{'contactSubject' | translate | async}}</mat-placeholder>
-                    <mat-error *ngIf="contactForm.controls.subject.hasError('required')">
-                        {{'contactSubjectRequired' | translate | async}}
-                    </mat-error>
-                </mat-form-field>
-                <mat-form-field>
-                    <textarea matInput required formControlName="body"></textarea>
-                    <mat-placeholder class="placeholder">{{'contactDescription' | translate | async}}</mat-placeholder>
-                    <mat-error *ngIf="contactForm.controls.body.hasError('required')">
-                        {{'contactDescriptionRequired' | translate | async}}
-                    </mat-error>
-                </mat-form-field>
-                <button mat-raised-button color="primary" type="submit">{{'contactSubmit' | translate | async}}</button>
+        <form *ngIf="state !== 'success'" [formGroup]="contactForm" (submit)="onSubmit()">
+            <span class="title">{{'sendMail' | translate | async}}</span>
+            <mat-form-field>
+                <input #mainInput matInput required type="text" formControlName="recipient">
+                <mat-placeholder class="placeholder">{{'mail' | translate | async}}</mat-placeholder>
+                <mat-error *ngIf="contactForm.controls.recipient.hasError('required')">
+                    {{'mailRequired' | translate | async}}
+                </mat-error>
+                <mat-error *ngIf="contactForm.controls.recipient.hasError('email')">
+                    {{'mailInvalid' | translate | async }}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput required type="text" formControlName="subject">
+                <mat-placeholder class="placeholder">{{'subject' | translate | async}}</mat-placeholder>
+                <mat-error *ngIf="contactForm.controls.subject.hasError('required')">
+                    {{'subjectRequired' | translate | async}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <textarea matInput required formControlName="body"></textarea>
+                <mat-placeholder class="placeholder">{{'description' | translate | async}}</mat-placeholder>
+                <mat-error *ngIf="contactForm.controls.body.hasError('required')">
+                    {{'descriptionRequired' | translate | async}}
+                </mat-error>
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="submit">{{'submit' | translate | async}}</button>
+            <div *ngIf="userFound === false || state === 'error'" class="message error" class="message error">
+                <span *ngIf="userFound === false">
+                    {{'mailNotFound' | translate | async}}
+                </span>
+                <span *ngIf="state === 'error'">
+                    {{'unexpectedFail' | translate | async}} =>
+                    {{errorStatus}}
+                </span>
             </div>
         </form>
+        <div *ngIf="state === 'success'" class="message success">
+            <span>{{'contactSuccess' | translate | async}}</span>
+        </div>
     </div>
 </div>

@@ -16,19 +16,21 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const currentRoute: string = state.url;
-    const authenticateRoute = absoluteRoute.authenticate;
-    const profileRoute = absoluteRoute.profile;
+    const notAuthenticatedRoutes: string[] = [absoluteRoute.authenticate.self, absoluteRoute.resetPassword, absoluteRoute.resetPasswordId];
+    const authenticatedRoutes: string[] = [absoluteRoute.profile];
+    const redirectNotAuthenticated: string = absoluteRoute.authenticate.self;
+    const redirectAuthenticated: string = absoluteRoute.profile;
     return this.userService.isAuthorized()
       .pipe(
         map(isSignedIn => {
-          const disallowAuthenticate: boolean = currentRoute.startsWith(authenticateRoute) && isSignedIn;
-          const disallowProfile: boolean = currentRoute === profileRoute && !isSignedIn;
-          if (disallowAuthenticate || disallowProfile) {
+          const disallowAuthenticate: boolean = isSignedIn && !!notAuthenticatedRoutes.find(route => currentRoute.startsWith(route));
+          const disallowNotAuthenticated: boolean = !isSignedIn && !!authenticatedRoutes.find(route => currentRoute.startsWith(route));
+          if (disallowAuthenticate || disallowNotAuthenticated) {
             if (disallowAuthenticate) {
-              this.router.navigateByUrl(profileRoute);
+              this.router.navigateByUrl(redirectAuthenticated);
             }
-            if (disallowProfile) {
-              this.router.navigateByUrl(authenticateRoute);
+            if (disallowNotAuthenticated) {
+              this.router.navigateByUrl(redirectNotAuthenticated);
             }
             return false;
           }

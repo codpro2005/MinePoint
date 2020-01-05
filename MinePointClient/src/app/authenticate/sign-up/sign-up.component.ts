@@ -7,12 +7,9 @@ import { UserService } from 'src/services/user.service';
 import { MyValidators } from 'src/data/my-validators';
 import { TranslateService } from 'src/services/translate.service';
 import { ErrorMessagesService } from 'src/services/error-messages.service';
-
-class PasswordConfirmErrorMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    return (Boolean)((form.submitted || control.touched) && (form.hasError('differentPassword') || control.errors));
-  }
-}
+import { CookieService } from 'ngx-cookie-service';
+import { PasswordConfirmErrorMatcher } from 'src/data/error-matchers';
+import { StateEnum } from 'src/data/state';
 
 @Component({
   selector: 'app-sign-up',
@@ -20,64 +17,63 @@ class PasswordConfirmErrorMatcher implements ErrorStateMatcher {
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit {
-  @ViewChild('mainInput', { static: true }) mainInput: ElementRef;
+  // @ViewChild('mainInput', { static: true }) mainInput: ElementRef;
   public signUpForm: FormGroup;
   public passwordErrorMatcher = new PasswordConfirmErrorMatcher();
-  public responseSuccess: boolean;
-  public responseError: string;
+  public state: StateEnum;
+  public errorStatus: string;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private myValidators: MyValidators, private errorMessagesService: ErrorMessagesService) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private myValidators: MyValidators, private errorMessagesService: ErrorMessagesService, private cookieService: CookieService, private router: Router) { }
 
   ngOnInit() {
     this.signUpForm = this.formBuilder.group({
       mail: ['', [Validators.required, this.myValidators.email]],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(30), this.myValidators.charsInRange('0-9', 'digit'), this.myValidators.charsInRange('A-Z', 'upper')]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(30), this.myValidators.charsInRange('A-Z', 'upper'), this.myValidators.charsInRange('0-9', 'digit')]],
       passwordConfirm: ['', [Validators.required]],
-    }, { validators: [this.passwordConfirmed] });
+    }, { validators: [this.myValidators.passwordConfirmed] });
 
     // this.mainInput.nativeElement.focus();
-  }
-
-  private passwordConfirmed(formGroup: FormGroup): any {
-    return formGroup.value.password === formGroup.value.passwordConfirm ? null : { differentPassword: true };
   }
 
   public getPasswordMinLengthError(): string {
     return this.errorMessagesService.getPasswordMinLengthError(this.signUpForm.controls.password.errors.minlength.requiredLength);
   }
 
-  public getPasswordMaxLengthError() {
+  public getPasswordMaxLengthError(): string {
     return this.errorMessagesService.getPasswordMaxLengthError(this.signUpForm.controls.password.errors.maxlength.requiredLength);
   }
 
-  public getPasswordDigitMinError() {
+  public getPasswordDigitMinError(): string {
     return this.errorMessagesService.getPasswordDigitMinError(this.signUpForm.controls.password.errors.digitMin.minAmount);
   }
 
-  public getPasswordUpperMinError() {
+  public getPasswordUpperMinError(): string {
     return this.errorMessagesService.getPasswordUpperMinError(this.signUpForm.controls.password.errors.upperMin.minAmount);
   }
 
   public onSubmit() {
-    console.log(this.signUpForm.controls.password.errors);
     if (this.signUpForm.invalid) {
       return;
     }
-
     const user: User = {
+      id: null,
       mail: this.signUpForm.value.mail,
       password: this.signUpForm.value.password,
     };
-
-    this.userService.createUser(user).subscribe(res => console.log(res));
-
-    //   this.httpService.createUser(user).subscribe(
-    //     () => {
-    //       this.responseError = undefined;
-    //       this.responseSuccess = true;
-    //       setTimeout(() => this.router.navigateByUrl(AuthenticationPath.SignIn), 1000);
-    //     },
-    //     (error: ErrorEvent) => this.responseError = error.message);
-    // }
+    this.state = StateEnum.Pending;
+    this.userService.createUserAndLogin(user)
+      .subscribe(
+        token => {
+          this.state = StateEnum.Success;
+          this.cookieService.delete('user');
+          this.cookieService.set('user', JSON.stringify(token), new Date(token.session.expirationDate), '/');
+          this.userService.checkAuthorized();
+          this.router.navigateByUrl('/profile');
+        },
+        error => {
+          const status = error.status;
+          this.state = StateEnum.Error;
+          this.errorStatus = status ? status : 'unknown';
+        });
   }
 }

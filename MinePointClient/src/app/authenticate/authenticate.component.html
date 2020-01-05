@@ -4,13 +4,13 @@
 <div class="content">
     <div class="inner">
         <div class="header">
-            <span [routerLink]="absoluteRoute.signIn" class="sign-in"
-                [class.is-active]="getIsActive(absoluteRoute.signIn)">
-                {{'authenticateSignIn' | translate | async }}
+            <span [routerLink]="absoluteRoute.authenticate.signIn" class="sign-in"
+                [class.is-active]="getIsActive(absoluteRoute.authenticate.signIn)">
+                {{'signIn' | translate | async }}
             </span>
-            <span [routerLink]="absoluteRoute.signUp" class="sign-up"
-                [class.is-active]="getIsActive(absoluteRoute.signUp)">
-                {{'authenticateSignUp' | translate | async }}
+            <span [routerLink]="absoluteRoute.authenticate.signUp" class="sign-up"
+                [class.is-active]="getIsActive(absoluteRoute.authenticate.signUp)">
+                {{'signUp' | translate | async }}
             </span>
         </div>
         <div class="child-content">

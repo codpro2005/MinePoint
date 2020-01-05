@@ -10,5 +10,17 @@ namespace MinePointAPI.Models
 		public string Recipient { get; set; }
 		public string Subject { get; set; }
 		public string Body { get; set; }
+
+		public Mail()
+		{
+
+		}
+
+		public Mail(string recipient, string subject, string body)
+		{
+			this.Recipient = recipient;
+			this.Subject = subject;
+			this.Body = body;
+		}
 	}
 }

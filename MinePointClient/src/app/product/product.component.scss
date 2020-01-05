@@ -47,7 +47,8 @@
           flex-direction: column;
           align-items: center;
 
-          .mat-card-title, .mat-card-subtitle {
+          .mat-card-title,
+          .mat-card-subtitle {
             font-size: 2rem;
           }
 
@@ -81,9 +82,7 @@
             }
 
             ::ng-deep .mat-checkbox {
-
               ::ng-deep .mat-checkbox-layout {
-
                 ::ng-deep .mat-checkbox-inner-container {
                   margin-right: 0;
                 }
@@ -96,7 +95,6 @@
           }
 
           .mat-card-actions {
-
             button {
               font-size: 1rem;
               padding: 8px 24px;

@@ -1,9 +1,13 @@
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 export class MyValidators {
 
   public email(control: FormControl): { [key: string]: boolean } | null {
     return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g.exec(control.value) ? null : { email: true };
+  }
+
+  public passwordConfirmed(formGroup: FormGroup): any {
+    return formGroup.value.password === formGroup.value.passwordConfirm ? null : { differentPassword: true };
   }
 
   public charsInRange(validChars: string, name: string, min: number = 1, max: number = null): (control: FormControl) => { [key: string]: boolean } {

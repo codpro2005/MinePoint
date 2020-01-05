@@ -10,29 +10,32 @@
     width: 500px;
 
     .title {
-      font-size: 2rem;
+      font-size: 1.25rem;
     }
 
     .infos {
-      font-size: 1.25rem;
+      font-size: 1.125rem;
 
       .info {
         display: flex;
         align-items: center;
         height: 36px;
-        .name {
-          display: inline-block;
+
+        .name,
+        .value-and-interact {
           width: 250px;
         }
 
-        .values {
+        .name {
+          display: inline-block;
+        }
+
+        .value-and-interact {
           display: flex;
           align-items: center;
 
-          .value {
-            &:not(:last-child) {
-              margin-right: 1rem;
-            }
+          .interact {
+            margin-left: auto;
           }
         }
       }

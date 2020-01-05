@@ -7,24 +7,24 @@
             <div class="packages-offer">
                 <mat-card class="package example-card">
                     <mat-card-header>
-                        <mat-card-title>{{'productMinePointPackage' | translate | async}}</mat-card-title>
-                        <mat-card-subtitle>{{'productFrom8FrancsPerMonth' | translate | async}}</mat-card-subtitle>
+                        <mat-card-title>{{'minePointPackage' | translate | async}}</mat-card-title>
+                        <mat-card-subtitle>{{'from8FrancsPerMonth' | translate | async}}</mat-card-subtitle>
                     </mat-card-header>
                     <img mat-card-image src="../../assets/compressed/logo/logoSmallGreen.svg"
-                        [alt]="'productMinePointPackage' | translate | async">
+                        [alt]="'minePointPackage' | translate | async">
                     <mat-card-content>
                         <p class="description">
-                            {{'productMinePointPackageDescription' | translate | async}}
+                            {{'minePointPackageDescription' | translate | async}}
                         </p>
                         <mat-slider #slider min="4" max="30" [value]="sliderStartVal"></mat-slider>
-                        <p class="slider-value">{{getSliderDescriptionTranslated()}}</p>
-                        <mat-checkbox #checkbox>{{'productMinePointPackageBonusDescription' | translate | async}}
+                        <p class="slider-value">{{sliderDescriptionTranslated}}</p>
+                        <mat-checkbox #checkbox>{{'minePointPackageBonusDescription' | translate | async}}
                         </mat-checkbox>
                     </mat-card-content>
                     <mat-card-actions>
                         <button
-                            (click)="onBuy([{ value: 8, label: 'productMinePointPackage' }, { value: 5, label: 'productMinePointPackageBonus', condition: checkbox.checked }])"
-                            mat-raised-button color="primary">{{'productBuyNow' | translate | async}}</button>
+                            (click)="onBuy([{ value: cost, reward: 'rAM:' + ram, label: 'minePointPackage' }, { value: 5, reward: 'sET_UP:True', label: 'minePointPackageBonus', condition: checkbox.checked }])"
+                            mat-raised-button color="primary">{{'buyNow' | translate | async}}</button>
                     </mat-card-actions>
                 </mat-card>
             </div>

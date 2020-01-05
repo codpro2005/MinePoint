@@ -15,10 +15,10 @@
       flex-direction: column;
 
       .title {
-        font-size: 2rem;
+        font-size: 1.25rem;
       }
 
-      .form {
+      mat-form-field {
         display: flex;
         flex-direction: column;
       }

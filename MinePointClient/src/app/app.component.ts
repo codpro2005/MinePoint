@@ -23,7 +23,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.userService.isAuthorizedStream()
         .subscribe(res => res
-          .subscribe(isAuthorized => this.isAuthorized = isAuthorized))
+          .subscribe(isAuthorized => {
+            this.isAuthorized = isAuthorized;
+          }))
     );
   }
 

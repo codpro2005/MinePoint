@@ -51,32 +51,63 @@ body {
   }
 }
 
-mat-form-field {
-  &:not(.mat-form-field-invalid) {
-    mat-placeholder {
-      color: #ccc;
+form {
+  mat-form-field {
+    &:not(.mat-form-field-invalid) {
+      mat-placeholder {
+        color: #ccc;
+      }
+
+      &.mat-focused {
+        mat-placeholder {
+          color: $persian-green;
+        }
+      }
     }
 
-    &.mat-focused {
-      mat-placeholder {
+    &:not(.mat-focused) {
+      .mat-placeholder-required {
         color: $persian-green;
+      }
+    }
+
+    .mat-form-field-underline {
+      background-color: white !important;
+    }
+
+    .mat-error {
+      &:not(:first-of-type) {
+        display: none;
       }
     }
   }
 
-  &:not(.mat-focused) {
-    .mat-placeholder-required {
-      color: $persian-green;
-    }
+  .message {
+    margin-top: 0.5rem;
+  }
+}
+
+.message {
+  display: block;
+  text-align: center;
+
+  &.hint {
+    color: gray;
   }
 
-  .mat-form-field-underline {
-    background-color: white !important;
+  &.error {
+    color: #F44336;
   }
 
-  .mat-error {
-    &:not(:first-of-type) {
-      display: none;
-    }
+  &.success {
+    color: white;
   }
+}
+
+.hidden {
+  display: none;
+}
+
+.paymentwall-dialog-container .mat-dialog-container {
+  overflow: hidden;
 }

@@ -2,20 +2,26 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from 'src/data/user';
 import { HttpClient } from '@angular/common/http';
-import { api } from 'src/data/api';
+import { fullApi } from 'src/data/api';
 import { CookieService } from 'ngx-cookie-service';
 import { map } from 'rxjs/operators';
 import { Token } from 'src/data/token';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private controller = 'User';
+  private controller = 'User/';
   private $checkAuthorized: BehaviorSubject<any> = new BehaviorSubject(null);
   private $notAuthorized: Observable<boolean> = new BehaviorSubject(false).asObservable();
+  private $emptyUser: Observable<User> = new BehaviorSubject(new User()).asObservable();
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
+
+  private get controllerApi(): string {
+    return `${fullApi}${this.controller}`;
+  }
 
   public checkAuthorized() {
     this.$checkAuthorized.next(null);
@@ -28,26 +34,63 @@ export class UserService {
   }
 
   public isAuthorized(): Observable<boolean> {
-    const tokenStr = this.cookieService.get('token');
+    const tokenStr = this.cookieService.get('user');
     if (!tokenStr) {
       return this.$notAuthorized;
     }
-    const token: Token = JSON.parse(tokenStr);
-    return this.http.get<boolean>(`${api.root}/${api.sub}/${this.controller}/GetTokenValid/${token.value}?userID=${token.userID}`);
+    const sessionId: string = (JSON.parse(tokenStr) as Token<User>).session.id;
+    return this.http.get<boolean>(`${this.controllerApi}GetTokenValid/${sessionId}`);
+  }
+
+  public getUser(): User {
+    const tokenStr = this.cookieService.get('user');
+    return tokenStr ? (JSON.parse(tokenStr) as Token<User>).value : null;
+  }
+
+  public deleteUserCookie() {
+    this.cookieService.delete('user');
   }
 
   public createUser(user: User): Observable<User> {
-    return this.http.post<User>(`${api.root}/${api.sub}/${this.controller}/PostUser`, user);
+    return this.filterUser(this.http.post<User>(`${this.controllerApi}PostUser`, user));
   }
 
-  public login(user: User): Observable<Token> {
-    return this.http.post<Token>(`${api.root}/${api.sub}/${this.controller}/PostUserLogin`, user)
+  public login(user: User): Observable<Token<User>> {
+    return this.filterToken(this.http.post<Token<User>>(`${this.controllerApi}PostUserLogin`, user));
+  }
+
+  public createUserAndLogin(user: User): Observable<Token<User>> {
+    return this.filterToken(this.http.post<Token<User>>(`${this.controllerApi}PostUserAndLogin`, user));
+  }
+
+  public updatePassword(userId: string, newPassword: string): Observable<Token<User>> {
+    return this.filterToken(this.http.put<Token<User>>(`${this.controllerApi}PutUserPasswordAndLogin/${userId}?newPassword=${newPassword}`, null));
+  }
+
+  private filterUser($user: Observable<User>): Observable<User> {
+    return $user
       .pipe(
-        map(res => (res ? {
-          userID: res.userID,
-          value: res.value
-        } : null) as Token
-        )
+        map(user => ({
+          mail: user.mail,
+          password: null,
+        }) as User)
+      );
+  }
+
+  private filterToken($token: Observable<Token<User>>): Observable<Token<User>> {
+    return $token
+      .pipe(
+        map(token => token ? {
+          session: {
+            id: token.session.id,
+            expirationDate: token.session.expirationDate,
+          },
+          value: {
+            id: token.value.id,
+            mail: token.value.mail,
+            password: null,
+          },
+        } as Token<User> : token)
       );
   }
 }

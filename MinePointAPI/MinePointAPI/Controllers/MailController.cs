@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MinePointAPI.Models.Enums;
 
 namespace MinePointAPI.Controllers
 {
@@ -21,6 +22,18 @@ namespace MinePointAPI.Controllers
 		public bool PostMail([FromBody]Mail mail)
 		{
 			return this.MailService.PostMail(mail);
+		}
+
+		[HttpPost]
+		public bool PostContactMail([FromBody]Mail mail)
+		{
+			return this.MailService.PostContactMail(mail);
+		}
+
+		[HttpPost]
+		public bool PostPasswordForgottenMail(string recipient, Language language)
+		{
+			return this.MailService.PostPasswordForgottenMail(recipient, language);
 		}
 	}
 }

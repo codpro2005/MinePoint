@@ -1,4 +1,6 @@
-export class Token {
-    userID: string;
-    value: string;
+import { Session } from './session';
+
+export class Token<T> {
+    session: Session;
+    value: T;
 }

@@ -8,7 +8,7 @@ namespace MinePointAPI.Services
 {
 	public interface IPaymentwallService
 	{
-		string GetOnetimePaymentLink();
+		string GetOnetimePaymentLink(Guid userId, string productId, float amount, string currencyCode, string name);
 		string GetSubscriptionLink();
 		string GetPingback();
 	}
@@ -21,26 +21,26 @@ namespace MinePointAPI.Services
 			Paymentwall_Base.setSecretKey("4762232d04b9b1c336e5d95c232f31e0");
 		}
 
-		public string GetOnetimePaymentLink()
+		public string GetOnetimePaymentLink(Guid userId, string productId, float amount, string currencyCode, string name)
 		{
+			if (productId == string.Empty)
+			{
+				throw new Exception("No product specified");
+			}
 			var productList = new List<Paymentwall_Product>();
 			var product = new Paymentwall_Product(
-				"product301", // ag_external_id
-				(float)9.99, // amount
-				"USD", // currencyCode
-				"Gold Membership", // ag_name
-				Paymentwall_Product.TYPE_FIXED //ag_type
-);
+				productId, // ag_external_id
+				amount, // amount
+				currencyCode, // currencyCode
+				name // ag_name
+			);
 			productList.Add(product);
 			var widget = new Paymentwall_Widget(
-				"user40012", // uid
+				userId.ToString(), // uid
 				"p1_1", // widget
 				productList,
 				new Dictionary<string, string>() {
-					{ "email", "user@hostname.com" },
-					{ "history[registration_date]", "registered_date_of_user" },
 					{ "ps", "all" },
-					//{ "additional_param_name", "additional_param_value" }
 					{ "success_url", "https://www.minepoint.ch" }
 				}
 			);
@@ -98,6 +98,11 @@ namespace MinePointAPI.Services
 			//	return pingback.getErrorSummary();
 			//}
 			return "OK";
+		}
+
+		private string GetProductFinal(object value, string name)
+		{
+			return value != null ? $"{name}:{value}" : string.Empty;
 		}
 	}
 }
