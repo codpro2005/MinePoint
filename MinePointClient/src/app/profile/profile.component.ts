@@ -23,7 +23,19 @@ export class ProfileComponent implements OnInit {
       .subscribe(user => this.user = user);
   }
 
-  public getDateFormat(dateFormat: Date) {
+  public getSubscriptionExpirationDate(): string {
+    const currentDate: Date = new Date(Date.now());
+    let currentLatestDate: Date = currentDate;
+    this.user.subscriptions.forEach(subscription => {
+      const subscriptionExpirationDate: Date = new Date(subscription.expiration);
+      if (subscriptionExpirationDate.getTime() > currentLatestDate.getTime()) {
+        currentLatestDate = subscriptionExpirationDate;
+      }
+    });
+    return currentLatestDate.getTime() !== currentDate.getTime() ? this.getDateFormat(currentLatestDate) : this.translateService.getTranslated('now');
+  }
+
+  public getDateFormat(dateFormat: Date): string {
     const expirationMoment: moment.Moment = moment(dateFormat);
     return this.translateService.getCustomTranslated(expirationMoment.format('DD.MM.YYYY'), expirationMoment.format('MM/DD/YYYY'), expirationMoment.format('YYYY/MM/DD'));
   }

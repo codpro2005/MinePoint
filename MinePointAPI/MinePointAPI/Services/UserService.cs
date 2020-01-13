@@ -34,7 +34,9 @@ namespace MinePointAPI.Services
 
 		public User GetUser(Guid id)
 		{
-			return this.UserRepository.GetUser(id);
+			var user = this.UserRepository.GetUser(id);
+			user.HidePassword();
+			return user;
 		}
 
 		public bool GetTokenValid(Guid id)
@@ -68,7 +70,7 @@ namespace MinePointAPI.Services
 			{
 				return null;
 			}
-			var foundUser = this.GetUser((Guid)userId);
+			var foundUser = this.UserRepository.GetUser((Guid)userId);
 			foundUser.Password = user.Password;
 			var result = this.UserRepository.PostUserLogin((Guid)foundUser.Id, foundUser.Password);
 			result?.Value.HidePassword();
@@ -91,7 +93,7 @@ namespace MinePointAPI.Services
 			{
 				return null;
 			}
-			var user = this.GetUser((Guid)userId);
+			var user = this.UserRepository.GetUser((Guid)userId);
 			user.Password = newPassword;
 			user.ThrowOnInvalidPassword();
 			var updatedUser = this.UserRepository.PutUser(user);
@@ -106,7 +108,7 @@ namespace MinePointAPI.Services
 			{
 				return null;
 			}
-			var user = this.GetUser((Guid)userId);
+			var user = this.UserRepository.GetUser((Guid)userId);
 			user.Password = newPassword;
 			user.ThrowOnInvalidPassword();
 			var updatedUser = this.UserRepository.PutUser(user);
@@ -117,14 +119,14 @@ namespace MinePointAPI.Services
 
 		public User PutUserPayments(Guid id, int ram, bool setUp)
 		{
-			var currentUser = this.GetUser(id);
+			var currentUser = this.UserRepository.GetUser(id);
 			if (currentUser == null)
 			{
 				return null;
 			}
-			var currentSubscriptionExpiration = currentUser.SubscriptionExpiration;
-			currentUser.SubscriptionExpiration = currentSubscriptionExpiration == null || currentSubscriptionExpiration.Value < DateTime.Now ? DateTime.Now.AddMonths(1) : currentSubscriptionExpiration.Value.AddMonths(1);
-			currentUser.Ram = ram;
+			var latestSubscriptionExpiration = currentUser.Subscriptions.Max(subscription => subscription.Expiration);
+			var now = DateTime.Now;
+			currentUser.Subscriptions.Add(new Subscription(Guid.NewGuid(), latestSubscriptionExpiration == null || latestSubscriptionExpiration.Value < now ? now.AddMonths(1) : latestSubscriptionExpiration.Value.AddMonths(1), ram));
 			currentUser.SetUp = currentUser.SetUp || setUp;
 			var updatedUser = this.UserRepository.PutUser(currentUser);
 			updatedUser.HidePassword();

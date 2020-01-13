@@ -16,24 +16,24 @@ namespace MinePointAPI.Repositories
 	public class UserRepository : IUserRepository
 	{
 		private const string ConnectionString = "server=127.0.0.1;uid=root;pwd=MP123;database=minepoint";
+		private readonly ISubscriptionRepository SubscriptionRepository;
 
-		public UserRepository()
+		public UserRepository(ISubscriptionRepository subscriptionRepository)
 		{
-
+			this.SubscriptionRepository = subscriptionRepository;
 		}
 
 		public User GetUser(Guid id)
 		{
 			using var connection = new MySqlConnection(UserRepository.ConnectionString);
-			using var command = new MySqlCommand($"SELECT Mail, Password, SubscriptionExpiration, Ram, SetUp FROM USER WHERE ID = @ID", connection);
+			using var command = new MySqlCommand($"SELECT Mail, Password, SetUp FROM USER WHERE ID = @ID", connection);
 			command.Parameters.AddWithValue("@ID", id);
 			connection.Open();
 			using var dataReader = command.ExecuteReader();
 			User user = null;
 			if (dataReader.Read())
 			{
-				var subscriptionExpiration = dataReader["SubscriptionExpiration"];
-				user = new User(id, (string)dataReader["Mail"], (string)dataReader["Password"], subscriptionExpiration != DBNull.Value ? (DateTime?)subscriptionExpiration : null, (int)dataReader["Ram"], (ulong)dataReader["SetUp"] == 1);
+				user = new User(id, (string)dataReader["Mail"], (string)dataReader["Password"], (ulong)dataReader["SetUp"] == 1, this.SubscriptionRepository.GetSubscriptions(id));
 			}
 			dataReader.Close();
 			return user;
@@ -49,7 +49,7 @@ namespace MinePointAPI.Repositories
 			Guid? userId = null;
 			if (dataReader.Read())
 			{
-				userId = new Guid((string) dataReader["ID"]);
+				userId = new Guid((string)dataReader["ID"]);
 			}
 			dataReader.Close();
 			return userId;
@@ -59,45 +59,50 @@ namespace MinePointAPI.Repositories
 		{
 			user.Id = Guid.NewGuid();
 			using var connection = new MySqlConnection(UserRepository.ConnectionString);
-			using var command = new MySqlCommand("INSERT INTO user(ID, Mail, Password, SubscriptionExpiration, Ram, SetUp) VALUES(@ID, @Mail, @Password, @SubscriptionExpiration, @Ram, @SetUp)", connection);
-			command.Parameters.AddWithValue("@ID", user.Id);
-			command.Parameters.AddWithValue("@Mail", user.Mail);
-			command.Parameters.AddWithValue("@Password", SecurePasswordHasher.Hash(user.Password));
-			command.Parameters.AddWithValue("@SubscriptionExpiration", user.SubscriptionExpiration);
-			command.Parameters.AddWithValue("@Ram", user.Ram);
-			command.Parameters.AddWithValue("@SetUp", user.SetUp);
-			connection.Open();
-			command.ExecuteNonQuery();
+			using (var command =
+				new MySqlCommand("INSERT INTO user(ID, Mail, Password, SetUp) VALUES(@ID, @Mail, @Password, @SetUp)",
+					connection))
+			{
+				command.Parameters.AddWithValue("@ID", user.Id);
+				command.Parameters.AddWithValue("@Mail", user.Mail);
+				command.Parameters.AddWithValue("@Password", SecurePasswordHasher.Hash(user.Password));
+				command.Parameters.AddWithValue("@SetUp", user.SetUp);
+				connection.Open();
+				command.ExecuteNonQuery();
+			}
+			user.Subscriptions.ForEach(subscription => this.SubscriptionRepository.PostSubscription((Guid)user.Id, subscription));
 			return user;
 		}
 
 		public User PutUser(User user)
 		{
 			using var connection = new MySqlConnection(UserRepository.ConnectionString);
-			using var command = new MySqlCommand("UPDATE USER SET Mail = @Mail, Password = @Password, SubscriptionExpiration = @SubscriptionExpiration, Ram = @Ram, SetUp = @SetUp WHERE ID = @ID;", connection);
-			command.Parameters.AddWithValue("@ID", user.Id);
-			command.Parameters.AddWithValue("@Mail", user.Mail);
-			command.Parameters.AddWithValue("@Password", SecurePasswordHasher.Hash(user.Password));
-			command.Parameters.AddWithValue("@SubscriptionExpiration", user.SubscriptionExpiration);
-			command.Parameters.AddWithValue("@Ram", user.Ram);
-			command.Parameters.AddWithValue("@SetUp", user.SetUp);
-			connection.Open();
-			command.ExecuteNonQuery();
+			using (var command =
+				new MySqlCommand("UPDATE user SET Mail = @Mail, Password = @Password, SetUp = @SetUp WHERE ID = @ID;",
+					connection))
+			{
+				command.Parameters.AddWithValue("@ID", user.Id);
+				command.Parameters.AddWithValue("@Mail", user.Mail);
+				command.Parameters.AddWithValue("@Password", SecurePasswordHasher.Hash(user.Password));
+				command.Parameters.AddWithValue("@SetUp", user.SetUp);
+				connection.Open();
+				command.ExecuteNonQuery();
+			}
+			user.Subscriptions.ForEach(subscription => this.SubscriptionRepository.PostOrPutSubscription((Guid)user.Id, subscription));
 			return user;
 		}
 
 		public Token<User> PostUserLogin(Guid id, string password)
 		{
 			using var connection = new MySqlConnection(UserRepository.ConnectionString);
-			using var command = new MySqlCommand($"SELECT Mail, Password, SubscriptionExpiration, Ram, SetUp FROM USER WHERE ID = @ID", connection);
+			using var command = new MySqlCommand($"SELECT Mail, Password, SetUp FROM USER WHERE ID = @ID", connection);
 			command.Parameters.AddWithValue("@ID", id);
 			connection.Open();
 			using var dataReader = command.ExecuteReader();
 			Token<User> token = null;
 			if (dataReader.Read() && SecurePasswordHasher.Verify(password, (string)dataReader["Password"]))
 			{
-				var subscriptionExpiration = dataReader["SubscriptionExpiration"];
-				token = new Token<User>(new Session(true), new User(id, (string)dataReader["Mail"], (string)dataReader["Password"], subscriptionExpiration != DBNull.Value ? (DateTime?)subscriptionExpiration : null, (int)dataReader["Ram"], (ulong)dataReader["SetUp"] == 1));
+				token = new Token<User>(new Session(true), new User(id, (string)dataReader["Mail"], (string)dataReader["Password"], (ulong)dataReader["SetUp"] == 1, this.SubscriptionRepository.GetSubscriptions(id)));
 			}
 			dataReader.Close();
 			return token;

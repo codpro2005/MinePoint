@@ -14,16 +14,14 @@ namespace MinePointAPI.Models
 		public Guid? Id { get; set; }
 		public string Mail { get; set; }
 		public string Password { get; set; }
-		public DateTime? SubscriptionExpiration { get; set; }
-		public int Ram { get; set; }
 		public bool SetUp { get; set; }
+		public List<Subscription> Subscriptions { get; set; } = new List<Subscription>();
 
 		public bool ValidMail =>
 			User.Validate(
 				new Regex(
 					@"^(([^<>()\[\]\\.,;:\s@""]+(\.[^<>()\[\]\\.,;:\s@""]+)*)|("".+""))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$"),
 				this.Mail);
-
 		public bool ValidPassword => User.Validate(new Regex(@"^(?=.*[A-Z])(?=.*[0-9]).{6,}$"), this.Password);
 		public bool Valid => ValidMail && ValidPassword;
 
@@ -32,32 +30,31 @@ namespace MinePointAPI.Models
 
 		}
 
-		public User(Guid id)
+		public User(Guid? id)
 		{
 			this.Id = id;
 		}
 
-		public User(Guid id, string mail)
-		{
-			this.Id = id;
-			this.Mail = mail;
-		}
-
-		public User(Guid id, string mail, string password)
+		public User(Guid? id, string mail)
 		{
 			this.Id = id;
 			this.Mail = mail;
-			this.Password = password;
 		}
 
-		public User(Guid id, string mail, string password, DateTime? subscriptionExpiration, int ram, bool setUp)
+		public User(Guid? id, string mail, string password)
 		{
 			this.Id = id;
 			this.Mail = mail;
 			this.Password = password;
-			this.SubscriptionExpiration = subscriptionExpiration;
-			this.Ram = ram;
+		}
+
+		public User(Guid? id, string mail, string password, bool setUp, List<Subscription> subscriptions)
+		{
+			this.Id = id;
+			this.Mail = mail;
+			this.Password = password;
 			this.SetUp = setUp;
+			this.Subscriptions = subscriptions;
 		}
 
 		public void ThrowOnInvalidMail()

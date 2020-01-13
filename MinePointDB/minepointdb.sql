@@ -17,16 +17,31 @@ DROP DATABASE IF EXISTS `minepoint`;
 CREATE DATABASE IF NOT EXISTS `minepoint` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `minepoint`;
 
+-- Dumping structure for table minepoint.subscription
+DROP TABLE IF EXISTS `subscription`;
+CREATE TABLE IF NOT EXISTS `subscription` (
+  `ID` char(38) NOT NULL,
+  `Expiration` datetime NOT NULL,
+  `RAM` int(11) NOT NULL DEFAULT 0,
+  `fk_user` char(38) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `fk_user` (`fk_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table minepoint.subscription: ~0 rows (approximately)
+DELETE FROM `subscription`;
+/*!40000 ALTER TABLE `subscription` DISABLE KEYS */;
+/*!40000 ALTER TABLE `subscription` ENABLE KEYS */;
+
 -- Dumping structure for table minepoint.user
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `ID` char(38) NOT NULL,
   `Mail` varchar(254) NOT NULL,
   `Password` char(65) NOT NULL,
-  `SubscriptionExpiration` datetime DEFAULT NULL,
-  `Ram` int(11) DEFAULT 0,
   `SetUp` bit(1) NOT NULL DEFAULT b'0',
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `Mail` (`Mail`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table minepoint.user: ~0 rows (approximately)

@@ -6,7 +6,6 @@ import { fullApi } from 'src/data/api';
 import { CookieService } from 'ngx-cookie-service';
 import { map } from 'rxjs/operators';
 import { Token } from 'src/data/token';
-import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -81,9 +80,8 @@ export class UserService {
           id: user.id,
           mail: user.mail,
           password: null,
-          subscriptionExpiration: user.subscriptionExpiration,
-          ram: user.ram,
           setUp: user.setUp,
+          subscriptions: user.subscriptions,
         }) as User)
       );
   }
@@ -100,9 +98,8 @@ export class UserService {
             id: token.value.id,
             mail: token.value.mail,
             password: null,
-            subscriptionExpiration: token.value.subscriptionExpiration,
-            ram: token.value.ram,
             setUp: token.value.setUp,
+            subscriptions: token.value.subscriptions,
           },
         } as Token<User> : token)
       );

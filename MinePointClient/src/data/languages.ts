@@ -99,6 +99,7 @@ interface ILanguage {
     cancel: string;
     contactSuccess: string;
     resetPasswordRedirectFail: string;
+    now: string;
 }
 
 export const languages: ILanguages = {
@@ -187,6 +188,7 @@ export const languages: ILanguages = {
         cancel: 'Abbrechen',
         contactSuccess: 'Wir werden Sie sobald wie möglich kontaktieren!',
         resetPasswordRedirectFail: 'Dieser Link um das Passwort zurückzusetzen ist höchstwahrscheinlich entweder abgelaufen oder existiert gar nicht. Bitte fordern sie einen neuen an.',
+        now: 'Jetzt',
     },
     english: {
         home: 'Home',
@@ -273,6 +275,7 @@ export const languages: ILanguages = {
         cancel: 'Cancel',
         contactSuccess: 'We\'ll be trying to contact you as soon as possible!',
         resetPasswordRedirectFail: 'This link to reset the password is most likely either expired or didn\'t even exist in the first place. Please request a new one.',
+        now: 'Now',
     },
     chinese: {
         home: '家',
@@ -359,5 +362,6 @@ export const languages: ILanguages = {
         cancel: '取消',
         contactSuccess: '我们将尝试尽快与您联系！',
         resetPasswordRedirectFail: '此重置密码的链接很可能已过期或什至根本不存在。 请要求一个新的。',
+        now: '现在',
     }
 };

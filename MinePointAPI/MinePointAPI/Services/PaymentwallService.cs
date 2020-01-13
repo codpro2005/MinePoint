@@ -80,7 +80,7 @@ namespace MinePointAPI.Services
 			return widget.getUrl();
 		}
 
-		public string GetPingback(string uid, int type, string reference, int sign_version, string sig, int is_test, string goodsid, int? slength, string? speriod)
+		public string GetPingback(string uid, int type, string @ref, int sign_version, string sig, int is_test, string goodsid, int? slength, string? speriod)
 		{
 			try
 			{
@@ -98,8 +98,7 @@ namespace MinePointAPI.Services
 
 		private static string ParseProduct(string name, string input)
 		{
-			var valu2e = new Regex($"(?<={name}:)[^,]*(?=,)?").Match(input).Value;
-			return valu2e;
+			return new Regex($"(?<={name}:)[^,]*(?=,)?").Match(input).Value;
 		}
 
 		//private string GetProductFinal(object value, string name)
