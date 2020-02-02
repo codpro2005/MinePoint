@@ -23,8 +23,8 @@ namespace MinePointAPI.Services
 		private readonly IResetPassword ResetPassword;
 		private readonly IUserRepository UserRepository;
 		private SmtpClient SmtpClient { get; set; }
-		private const string Sender = "danilo.furrer@outlook.com";
-		private const string Password = @"Wolverine13-";
+		private const string Sender = "no-reply.minepoint@outlook.com";
+		private const string Password = "*BybcH,[X$!Jm3%6";
 
 		public MailService(IResetPassword resetPassword, IUserRepository userRepository)
 		{
