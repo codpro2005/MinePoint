@@ -62,11 +62,11 @@ namespace MinePointAPI.Repositories
 		{
 			using var connection = new MySqlConnection(SubscriptionRepository.ConnectionString);
 			bool subscriptionExists;
-			using (var existsCommand = new MySqlCommand("SELECT ID FROM subscription WHERE ID = @ID;", connection))
+			using (var command = new MySqlCommand("SELECT ID FROM subscription WHERE ID = @ID;", connection))
 			{
-				existsCommand.Parameters.AddWithValue("@ID", subscription.Id);
+				command.Parameters.AddWithValue("@ID", subscription.Id);
 				connection.Open();
-				subscriptionExists = existsCommand.ExecuteReader().Read();
+				subscriptionExists = command.ExecuteReader().Read();
 			}
 
 			return !subscriptionExists

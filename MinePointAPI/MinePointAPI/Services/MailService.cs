@@ -24,7 +24,7 @@ namespace MinePointAPI.Services
 		private readonly IUserRepository UserRepository;
 		private SmtpClient SmtpClient { get; set; }
 		private const string Sender = "danilo.furrer@outlook.com";
-		private const string Password = "Deadpoolisthebest13-";
+		private const string Password = @"Wolverine13-";
 
 		public MailService(IResetPassword resetPassword, IUserRepository userRepository)
 		{
@@ -45,7 +45,7 @@ namespace MinePointAPI.Services
 		{
 			try
 			{
-				var message = new MailMessage(Sender, mail.Recipient) {Subject = mail.Subject, Body = mail.Body};
+				var message = new MailMessage(MailService.Sender, mail.Recipient) {Subject = mail.Subject, Body = mail.Body};
 				this.SmtpClient.Send(message);
 				return true;
 			}

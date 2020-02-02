@@ -10,7 +10,6 @@ namespace MinePointAPI.Services
 	public interface IPaymentwallService
 	{
 		string GetOnetimePaymentLink(Guid userId, string productId, float amount, string currencyCode, string name);
-		string GetSubscriptionLink();
 		string GetPingback(string uid, int type, string reference, int sign_version, string sig, int is_test, string goodsid, int? slength, string? speriod);
 	}
 	public class PaymentwallService : IPaymentwallService
@@ -51,35 +50,6 @@ namespace MinePointAPI.Services
 			return widget.getUrl();
 		}
 
-		public string GetSubscriptionLink()
-		{
-			var productList = new List<Paymentwall_Product>();
-			var product = new Paymentwall_Product(
-				"product301", // ag_external_id
-				(float)9.99, // amount
-				"USD", // currencyCode
-				"Gold Membership", // ag_name
-				Paymentwall_Product.TYPE_SUBSCRIPTION, // ag_type
-				1, // ag_period_length
-				Paymentwall_Product.PERIOD_TYPE_YEAR, // ag_period_type
-				true // ag_recurring
-			);
-			productList.Add(product);
-			var widget = new Paymentwall_Widget(
-				"user40012",
-				"p1_1",
-				productList,
-				new Dictionary<string, string>() {
-					{ "email", "user@hostname.com" },
-					{ "history[registration_date]", "registered_date_of_user" },
-					{ "ps", "all" },
-					//{ "additional_param_name", "additional_param_value" }
-					{ "success_url", "https://www.minepoint.ch" }
-				}
-			);
-			return widget.getUrl();
-		}
-
 		public string GetPingback(string uid, int type, string @ref, int sign_version, string sig, int is_test, string goodsid, int? slength, string? speriod)
 		{
 			try
@@ -100,10 +70,5 @@ namespace MinePointAPI.Services
 		{
 			return new Regex($"(?<={name}:)[^,]*(?=,)?").Match(input).Value;
 		}
-
-		//private string GetProductFinal(object value, string name)
-		//{
-		//	return value != null ? $"{name}:{value}" : string.Empty;
-		//}
 	}
 }

@@ -2,16 +2,19 @@
 using MinePointAPI.Models;
 using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 
 namespace MinePointAPI.Repositories
 {
 	public interface IUserRepository
 	{
+		List<User> GetUsers();
 		User GetUser(Guid id);
 		Guid? GetUserIdByMail(string mail);
 		User PostUser(User user);
 		User PutUser(User user);
 		Token<User> PostUserLogin(Guid id, string password);
+		User DeleteUser(Guid id);
 	}
 	public class UserRepository : IUserRepository
 	{
@@ -21,6 +24,22 @@ namespace MinePointAPI.Repositories
 		public UserRepository(ISubscriptionRepository subscriptionRepository)
 		{
 			this.SubscriptionRepository = subscriptionRepository;
+		}
+
+		public List<User> GetUsers()
+		{
+			using var connection = new MySqlConnection(UserRepository.ConnectionString);
+			using var command = new MySqlCommand($"SELECT * FROM USER", connection);
+			connection.Open();
+			using var dataReader = command.ExecuteReader();
+			var users = new List<User>();
+			while (dataReader.Read())
+			{
+				var id = Guid.Parse((string) dataReader["ID"]);
+				users.Add(new User(id, (string)dataReader["Mail"], (string)dataReader["Password"], (ulong)dataReader["SetUp"] == 1, this.SubscriptionRepository.GetSubscriptions(id)));
+			}
+			dataReader.Close();
+			return users;
 		}
 
 		public User GetUser(Guid id)
@@ -106,6 +125,17 @@ namespace MinePointAPI.Repositories
 			}
 			dataReader.Close();
 			return token;
+		}
+
+		public User DeleteUser(Guid id)
+		{
+			var user = this.GetUser(id);
+			using var connection = new MySqlConnection(UserRepository.ConnectionString);
+			using var command = new MySqlCommand($"DELETE FROM USER WHERE ID = @ID", connection);
+			command.Parameters.AddWithValue("@ID", id);
+			connection.Open();
+			command.ExecuteNonQuery();
+			return user;
 		}
 	}
 }

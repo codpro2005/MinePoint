@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace MinePointAPI.Controllers
 {
-	//[ApiController]
 	public class PaymentwallController : ControllerBase
 	{
 		private readonly IPaymentwallService PaymentwallService;
@@ -22,12 +21,6 @@ namespace MinePointAPI.Controllers
 		public string GetOnetimePaymentLink(Guid userId, string productId, float amount, string currencyCode, string name)
 		{
 			return this.PaymentwallService.GetOnetimePaymentLink(userId, productId, amount, currencyCode, name);
-		}
-
-		[HttpGet]
-		public string GetSubscriptionLink()
-		{
-			return this.PaymentwallService.GetSubscriptionLink();
 		}
 
 		[HttpGet]

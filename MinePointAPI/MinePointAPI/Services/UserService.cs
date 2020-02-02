@@ -10,6 +10,7 @@ namespace MinePointAPI.Services
 {
 	public interface IUserService
 	{
+		List<User> GetUsers();
 		User GetUser(Guid id);
 		bool GetTokenValid(Guid id);
 		User PostOrPutUser(User user);
@@ -18,6 +19,7 @@ namespace MinePointAPI.Services
 		Token<User> PostUserAndLogin(User user);
 		User PutUserPassword(Guid id, string newPassword);
 		Token<User> PutUserPasswordAndLogin(Guid id, string newPassword);
+		User DeleteUser(Guid id);
 		User PutUserPayments(Guid id, int ram, bool setUp);
 	}
 	public class UserService : IUserService
@@ -30,6 +32,13 @@ namespace MinePointAPI.Services
 		{
 			this.UserRepository = userRepository;
 			this.ResetPassword = resetPassword;
+		}
+
+		public List<User> GetUsers()
+		{
+			var users = this.UserRepository.GetUsers();
+			users.ForEach(user => user.HidePassword());
+			return users;
 		}
 
 		public User GetUser(Guid id)
@@ -115,6 +124,13 @@ namespace MinePointAPI.Services
 			var result = this.UserRepository.PostUserLogin((Guid)updatedUser.Id, updatedUser.Password);
 			result?.Value.HidePassword();
 			return result;
+		}
+
+		public User DeleteUser(Guid id)
+		{
+			var user = this.UserRepository.DeleteUser(id);
+			user.HidePassword();
+			return user;
 		}
 
 		public User PutUserPayments(Guid id, int ram, bool setUp)

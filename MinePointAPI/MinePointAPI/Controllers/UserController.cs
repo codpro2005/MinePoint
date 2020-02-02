@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace MinePointAPI.Controllers
 {
-	//[ApiController]
 	public class UserController : ControllerBase
 	{
 		private readonly IUserService UserService;
@@ -17,6 +16,12 @@ namespace MinePointAPI.Controllers
 		public UserController(IUserService userService)
 		{
 			this.UserService = userService;
+		}
+
+		[HttpGet]
+		public List<User> GetUsers()
+		{
+			return this.UserService.GetUsers();
 		}
 
 		[HttpGet]
@@ -59,6 +64,12 @@ namespace MinePointAPI.Controllers
 		public Token<User> PutUserPasswordAndLogin(Guid id, string newPassword)
 		{
 			return this.UserService.PutUserPasswordAndLogin(id, newPassword);
+		}
+
+		[HttpDelete]
+		public User DeleteUser(Guid id)
+		{
+			return this.UserService.DeleteUser(id);
 		}
 	}
 }
